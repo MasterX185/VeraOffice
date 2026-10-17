@@ -203,7 +203,7 @@
     display: block;
     flex-direction: column;
     min-height: 100vh;
-    background-color: #f9fafb; 
+    background-color: #91c6fc; /* Minimalist clean bright background */
     padding-top: 65px;
 }
 
@@ -212,7 +212,7 @@
     display: flex;
     flex-direction: row;
     min-height: calc(100vh - 85px); 
-    background-color: #f9fafb;
+    background-color: #91c6fc; /* Minimalist clean bright background */
     width: 100%;
 }
 .side-navigation {
