@@ -15,7 +15,7 @@
     font-family: 'Poppins', sans-serif;
 }
 
-body {
+.home-body {
     background-color: #91c6fc; /* Minimalist clean bright background */
     color: var(--text-main);
     min-height: 100vh;
@@ -193,6 +193,193 @@ body {
 
 .card-button:hover {
     background-color: #0056b3;
+}
+
+
+/* app.html Styles */
+
+
+.app-body {
+    display: block;
+    flex-direction: column;
+    min-height: 100vh;
+    background-color: #f9fafb; 
+    padding-top: 65px;
+}
+
+
+.app-layout {
+    display: flex;
+    flex-direction: row;
+    min-height: calc(100vh - 85px); 
+    background-color: #f9fafb;
+    width: 100%;
+}
+.side-navigation {
+    width: 220px;
+    background-color: #ffffff;
+    border-right: 1px solid #e5e7eb;
+    padding: 24px;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.05);
+    flex-shrink: 0; 
+}
+
+.sidebar-title {
+    font-size: 1.25rem;
+    font-weight: 600;
+    margin-bottom: 16px;
+    color: #111827;
+}
+
+.side-links {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+}
+
+.side-item {
+    margin-bottom: 8px;
+}
+
+.side-item a {
+    display: block;
+    color: #4b5563; 
+    text-decoration: none;
+    padding: 10px 14px;
+    border-radius: 6px;
+    font-weight: 500;
+    font-size: 0.95rem;
+    transition: background-color 0.2s, color 0.2s;
+}
+
+
+.app-content {
+    flex-grow: 1; 
+    padding: 48px;
+    max-width: 1200px; 
+}
+
+.content-header {
+    margin-bottom: 40px;
+}
+
+.app-title {
+    font-size: 2.25rem;
+    font-weight: 700;
+    color: #0f172a;
+    letter-spacing: -0.02em;
+    margin-bottom: 8px;
+}
+
+.app-subtitle {
+    font-size: 1rem;
+    color: #64748b;
+}
+
+.dashboard-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
+    gap: 24px;
+    width: 100%;
+}
+
+
+.app-card {
+    background-color: #ffffff;
+    border: 1px solid #e2e8f0;
+    border-radius: 16px;
+    padding: 28px;
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start; 
+    transition: all 0.2s ease;
+}
+
+.app-card:hover {
+    transform: translateY(-2px);
+    border-color: #cbd5e1;
+    box-shadow: 0 12px 20px -8px rgba(0, 0, 0, 0.04);
+}
+
+.card-icon-wrapper {
+    width: 48px;
+    height: 48px;
+    border-radius: 12px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin-bottom: 20px;
+}
+
+
+.text-app .card-icon-wrapper {
+    background-color: #eff6ff;
+    color: #2563eb;
+}
+
+.sheets-app .card-icon-wrapper {
+    background-color: #f0fdf4;
+    color: #16a34a;
+}
+
+.presentations-app .card-icon-wrapper {
+    background-color: #fffbeb;
+    color: #f59e0b;
+}
+
+.card-icon-wrapper i {
+    width: 24px;
+    height: 24px;
+}
+
+.card-body {
+    display: flex;
+    flex-direction: column;
+    height: 100%;
+    width: 100%;
+}
+
+.card-app-title {
+    font-size: 1.25rem;
+    font-weight: 600;
+    color: #0f172a;
+    margin-bottom: 8px;
+    text-align: left;
+}
+
+.card-app-text {
+    font-size: 0.9rem;
+    color: #64748b;
+    line-height: 1.6;
+    margin-bottom: 24px;
+    text-align: left;
+    flex-grow: 1;
+}
+
+
+.card-app-button {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    color: #2563eb;
+    text-decoration: none;
+    font-weight: 600;
+    font-size: 0.9rem;
+    transition: gap 0.2s ease;
+}
+
+.card-app-button i {
+    width: 16px;
+    height: 16px;
+    transition: transform 0.2s ease;
+}
+
+.card-app-button:hover {
+    color: #1d4ed8;
+}
+
+.card-app-button:hover i {
+    transform: translateX(4px); /* Der Pfeil schiebt sich leicht nach rechts */
 }
 
 /* Responsive Overrides for Mobile devices */
