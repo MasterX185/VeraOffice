@@ -1,12 +1,3 @@
-/* Global Styles & Variables */
-:root {
-    --primary-color: #2563eb;       /* Modern Tech Blue */
-    --primary-hover: #1d4ed8;       /* Darker blue for hover states */
-    --text-main: #1f2937;           /* Off-black for premium readability */
-    --text-muted: #4b5563;          /* Dark gray for subtitles/secondary text */
-    --bg-navbar: rgba(255, 255, 255, 0.85); /* Semi-transparent background */
-    --border-color: rgba(0, 0, 0, 0.06);
-}
 
 * {
     margin: 0;
@@ -15,24 +6,88 @@
     font-family: 'Poppins', sans-serif;
 }
 
-.home-body {
-    background-color: #91c6fc; /* Minimalist clean bright background */
+.hidden {
+    display: none !important;
+}
+
+.editor-body {
+    background-color: #f3f4f6; /* Heller, neutraler Hintergrund für das Dokument */
     color: var(--text-main);
     min-height: 100vh;
     display: flex;
-    justify-content: center; 
-    align-items: center;    
+    flex-direction: column;
+}
+
+#start-text-toolbar {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    background-color: #f3f2f1;
+    border-bottom: 1px solid var(--border-color); 
+    padding: 6px 24px;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.05);
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+}
+
+#start-text-toolbar button {
+    background: transparent;
+    border: 1px solid transparent;
+    border-radius: 4px;
+    padding: 6px 12px;
+    cursor: pointer;
+    font-size: 14px;
+    color: #323130;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    height: 32px;
+    transition: background-color 0.1s, border-color 0.1s;
 }
 
 
-/* Header & Navbar Styles */
+#start-text-toolbar button:hover {
+    background-color: #edebe9;
+    border-color: #dfdfdf;
+}
+
+
+#start-text-toolbar button:active {
+    background-color: #e1dfdd;
+}
+
+#start-text-toolbar select {
+    background: #ffffff;
+    border: 1px solid #dadada;
+    border-radius: 4px;
+    padding: 0 10px;
+    cursor: pointer;
+    font-size: 14px;
+    color: #323130;
+    height: 32px;
+    outline: none;
+    transition: border-color 0.1s;
+}
+
+#start-text-toolbar select:hover {
+    border-color: #a1a1a1;
+}
+
+
+.toolbar-separator {
+    width: 1px;
+    height: 20px;
+    background-color: #dadada;
+    margin: 0 4px;
+}
+
+
 .header-container {
-    position: fixed;
+    position: sticky; 
     top: 0;
     left: 0;
     width: 100%;
     background-color: var(--bg-navbar);
-    backdrop-filter: blur(12px); /* Modern frosted glass effect */
+    backdrop-filter: blur(12px);
     -webkit-backdrop-filter: blur(12px);
     border-bottom: 1px solid var(--border-color);
     z-index: 1000;
@@ -40,122 +95,54 @@
 
 .navbar {
     display: flex;
-    justify-content: space-between;
+    justify-content: flex-start; 
     align-items: center;
-    max-width: 1200px; /* Limits content width on widescreen displays */
-    margin: 0 auto;
-    padding: 16px 24px;
+    max-width: 100%;
+    margin: 0;
+    padding: 10px 24px;
+    gap: 8px;
 }
 
-/* Logo */
-.nav-logo a {
-    font-size: 22px;
-    font-weight: 700;
-    color: var(--text-main);
-    text-decoration: none;
-    letter-spacing: -0.5px;
-}
 
-.nav-logo .logo-accent {
-    color: var(--primary-color);
-}
-
-/* Nav Links */
 .nav-links {
     display: flex;
     align-items: center;
-    gap: 32px;
+    gap: 4px;
     list-style: none;
 }
 
 .nav-links a {
     color: var(--text-muted);
     text-decoration: none;
-    font-size: 15px;
+    font-size: 14px;
     font-weight: 500;
-    transition: color 0.2s ease;
-}
-
-.nav-links a:hover,
-.nav-links a.active {
-    color: var(--primary-color);
-}
-
-/* Active Link treatment */
-.nav-links a.active {
-    font-weight: 600;
-}
-
-/* Call to Action Button ("Open App") */
-.nav-links .btn-cta {
-    background-color: var(--primary-color);
-    color: #ffffff;
-    padding: 8px 20px;
+    padding: 6px 12px;
     border-radius: 6px;
-    font-weight: 600;
-    box-shadow: 0 4px 6px -1px rgba(37, 99, 235, 0.2);
-    transition: all 0.2s ease;
+    transition: background-color 0.15s ease, color 0.15s ease;
+    cursor: pointer;
 }
 
-.nav-links .btn-cta:hover {
-    background-color: var(--primary-hover);
-    color: #ffffff;
-    transform: translateY(-1px);
-    box-shadow: 0 6px 12px -1px rgba(37, 99, 235, 0.3);
-}
-
-/* Hero Section (Content underneath fixed header) */
-.hero-section {
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    align-items: center;
-    text-align: center;
-    min-height: 100vh; /* Fills up entire viewport height */
-    padding: 0 20px;
-    padding-top: 80px; /* Offset to prevent header overlapping content */
-    gap: 80px;
-}
-
-.hero-title {
-    font-size: 56px;
-    font-weight: 700;
-    letter-spacing: -1px;
-    margin-bottom: 12px;
+.nav-links a:hover {
+    background-color: rgba(0, 0, 0, 0.05);
     color: var(--text-main);
 }
 
-.hero-subtitle {
-    font-size: 24px;
-    font-weight: 400;
-    color: var(--text-muted);
+.nav-links a.active {
+    background-color: rgba(37, 99, 235, 0.1);
+    color: var(--primary-color);
+    font-weight: 600;
 }
 
 
-
-/* Responsive Overrides for Mobile devices */
-@media (max-width: 768px) {
-    .navbar {
-        flex-wrap: wrap;
-        gap: 12px;
-        padding: 12px 16px;
-    }
-
-    .nav-links {
-        flex-wrap: wrap;
-        justify-content: center;
-        gap: 12px;
-        width: 100%;
-    }
-
-    .nav-links a {
-        font-size: 14px;
-    }
-
-    .hero-title {
-        font-size: 38px;
-    }
-    .hero-subtitle {
-        font-size: 18px;
-    }
+.editor-container {
+    max-width: 850px; 
+    width: 100%;
+    margin: 40px auto;
+    background: white;
+    min-height: 80vh;
+    padding: 60px;
+    border-radius: 8px;
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.05);
+    border: 1px solid var(--border-color);
+    outline: none; 
 }

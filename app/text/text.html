@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>VeraOffice - App</title>
+    <link rel="stylesheet" href="../../style-editor.css">
+    <script src="text.js" defer></script>
+</head>
+<body class="editor-body">
+    <header class="header-container">
+        <nav class="navbar">
+            <ul class="nav-links">
+                <li><a id="home-btn-text">Home</a></li>
+                <li><a id="file-btn-text" class="active">File</a></li>
+                <li><a id="start-btn-text">Start</a></li>
+                <li><a id="insert-btn-text">Insert</a></li>
+            </ul>
+        </nav>
+
+        <div id="start-text-toolbar" class="hidden">
+            <button onclick="document.execCommand('bold')">bold</button>
+            <button onclick="document.execCommand('italic')">italic</button>
+            <select onchange="document.execCommand('fontSize', false, this.value)">
+                <option value="1">1</option>
+                <option value="2">2</option>
+                <option value="3">3</option>
+                <option value="4">4</option>
+                <option value="5">5</option>
+                <option value="6">6</option>
+                <option value="7">7</option>
+                <option value="8">8</option>
+                <option value="9">9</option>
+                <option value="10">10</option>
+
+            </select>
+        </div>
+    </header>
+
+
+    <main>
+        <div class="editor-container" contenteditable="true">
+            <h1>Document</h1>
+            <p>start to type...</p>
+        </div>
+    </main>
+</body>
+</html>
