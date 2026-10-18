@@ -10,8 +10,39 @@
     display: none !important;
 }
 
+
+.size-combobox {
+    position: relative;
+    display: inline-block;
+}
+
+.size-combobox input {
+    width: 70px;
+    height: 32px;
+    padding: 0 8px;
+    border: 1px solid #dadada;
+    border-radius: 4px;
+    font-size: 14px;
+    outline: none;
+    background-color: #ffffff;
+    transition: border-color 0.1s;
+}
+
+.size-combobox input:focus, .size-combobox input:hover {
+    border-color: #a1a1a1;
+}
+
+
+#start-text-toolbar button.active-tool {
+    background-color: #e1dfdd !important;
+    border-color: #a1a1a1 !important;
+    font-weight: bold;
+}
+
+
+
 .editor-body {
-    background-color: #f3f4f6; /* Heller, neutraler Hintergrund für das Dokument */
+    background-color: #f3f4f6;
     color: var(--text-main);
     min-height: 100vh;
     display: flex;
