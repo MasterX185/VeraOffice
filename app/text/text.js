@@ -8,6 +8,8 @@ document.addEventListener("DOMContentLoaded", () => {
     const boldBtn = document.getElementById("bold-btn");
     const italicBtn = document.getElementById("italic-btn");
     const fontSizeInput = document.getElementById("font-size-input");
+    const insertBtn = document.getElementById("insert-btn-start");
+    const copyBtn = document.getElementById("copy-btn-start");
 
     if (homeButton) {
         homeButton.addEventListener("click", () => console.log("home-button pressed"));
@@ -22,6 +24,61 @@ document.addEventListener("DOMContentLoaded", () => {
 
     function keepFocus() {
         editor.focus();
+    }
+
+    if (copyBtn) {
+        copyBtn.addEventListener("click", async () => {
+
+            try {
+                
+
+                const selection = window.getSelection();
+                
+                if (selection.rangeCount > 0) {
+                    // define selectedText
+                    const selectedText = selection.toString();
+                    if (selectedText.length > 0){
+                        await navigator.clipboard.writeText(selectedText);
+                        console.log("Your clipboard got something nice to eat!")
+
+                    }
+                }
+                    
+                    
+            } catch (err) {
+                console.error("Your clipboard has a bad day. It said something like this: ", err)
+
+            }
+        });
+    }
+
+    if (insertBtn) {
+        insertBtn.addEventListener("click", async () => {
+
+            try {
+                const clipboardText = await navigator.clipboard.readText();
+                keepFocus();
+
+                const selection = window.getSelection();
+                
+                if (selection.rangeCount > 0) {
+                    // define range
+                    const range = selection.getRangeAt(0);
+                    
+                    range.deleteContents();
+                    const textNode = document.createTextNode(clipboardText);
+                    range.deleteContents();
+                    range.insertNode(textNode);
+                    range.setStartAfter(textNode);
+                    range.setEndAfter(textNode);
+                    selection.removeAllRanges();
+                    selection.addRange(range);
+                }
+            } catch (err) {
+                console.error("Your clipboard has a bad day. It said something like this: ", err)
+
+            }
+        });
     }
 
     if (boldBtn) {

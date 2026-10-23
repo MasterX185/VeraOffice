@@ -13,12 +13,13 @@
             <ul class="nav-links">
                 <li><a id="home-btn-text" href="../app.html">Home</a></li>
                 <li><a id="file-btn-text">File</a></li>
-                <li><a id="start-btn-text" class="active">Start</a></li>
-                <li><a id="insert-btn-text">Insert</a></li>
+                <li><a id="start-btn-text">Start</a></li>
             </ul>
         </nav>
 
         <div id="start-text-toolbar" class="hidden">
+            <button id="insert-btn-start">insert</button>
+            <button id="copy-btn-start">copy</button>
             <button onclick="document.execCommand('bold')">bold</button>
             <button onclick="document.execCommand('italic')">italic</button>
 
@@ -34,6 +35,7 @@
                 <option value="24px"></option>
                 <option value="32px"></option>
             </datalist>
+            
             </div>
         </div>
     </header>
