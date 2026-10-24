@@ -3,245 +3,131 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>VeraOffice - login</title>
-    <!-- Supabase CDN -->
-    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+    <meta
+      name="description"
+      content="Sign in or create a VeraOffice account to access your workspace."
+    />
+    <title>Sign in | VeraOffice</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap"
+      rel="stylesheet"
+    />
     <link rel="stylesheet" href="style.css" />
-    <style>
-      /* Global Styles & Variables */
-      :root {
-        --primary-color: #2563eb; /* Modern Tech Blue */
-        --primary-hover: #1d4ed8; /* Darker blue for hover states */
-        --text-main: #1f2937; /* Off-black for premium readability */
-        --text-muted: #4b5563; /* Dark gray for subtitles/secondary text */
-        --bg-navbar: rgba(
-          255,
-          255,
-          255,
-          0.85
-        ); /* Semi-transparent background */
-        --border-color: rgba(0, 0, 0, 0.06);
-      }
-
-      * {
-        margin: 0;
-        padding: 0;
-        box-sizing: border-box;
-        font-family: "Poppins", sans-serif;
-      }
-
-      .home-body {
-        background-color: #91c6fc; /* Minimalist clean bright background */
-        color: var(--text-main);
-        min-height: 100vh;
-        display: flex;
-        justify-content: center;
-        align-items: center;
-      }
-
-      .text-card {
-        background-color: #ffffff;
-        border-radius: 12px;
-        box-shadow: 0 10px 25px rgba(0, 0, 0, 0.05);
-        width: 360px;
-        max-width: 100%;
-        padding: 32px 24px;
-        display: flex;
-        flex-direction: column;
-        align-items: stretch;
-        transition:
-          transform 0.2s ease,
-          box-shadow 0.2s ease;
-      }
-
-      .card-title {
-        color: var(--text-main);
-        font-size: 1.5rem;
-        margin: 0 0 8px 0;
-        font-weight: 600;
-        text-align: center;
-      }
-
-      .card-text {
-        color: var(--text-muted);
-        font-size: 0.9rem;
-        line-height: 1.5;
-        margin-bottom: 24px;
-        text-align: center;
-      }
-
-      .auth-input {
-        width: 100%;
-        padding: 12px 14px;
-        margin-bottom: 14px;
-        border: 1px solid #d1d5db;
-        border-radius: 6px;
-        font-size: 0.95rem;
-        color: var(--text-main);
-        outline: none;
-        transition:
-          border-color 0.2s,
-          box-shadow 0.2s;
-      }
-
-      .auth-input:focus {
-        border-color: var(--primary-color);
-        box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.15);
-      }
-
-      .card-button {
-        display: inline-block;
-        width: 100%;
-        color: #ffffff;
-        background-color: var(--primary-color);
-        text-decoration: none;
-        padding: 12px 20px;
-        border-radius: 6px;
-        font-size: 0.95rem;
-        font-weight: 600;
-        border: none;
-        cursor: pointer;
-        transition:
-          background-color 0.2s,
-          transform 0.1s;
-        text-align: center;
-        margin-bottom: 8px;
-        box-shadow: 0 4px 6px -1px rgba(37, 99, 235, 0.2);
-      }
-
-      .card-button:hover {
-        background-color: var(--primary-hover);
-        transform: translateY(-1px);
-      }
-
-      .btn-danger {
-        background-color: #dc3545;
-        box-shadow: 0 4px 6px -1px rgba(220, 53, 69, 0.2);
-      }
-
-      .btn-danger:hover {
-        background-color: #b02a37;
-      }
-
-      .hidden {
-        display: none;
-      }
-
-      .user-info {
-        font-size: 0.95rem;
-        color: var(--text-muted);
-        margin-bottom: 20px;
-        text-align: center;
-        word-break: break-all;
-      }
-
-      .user-info strong {
-        color: var(--text-main);
-      }
-    </style>
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+    <script src="auth-config.js"></script>
+    <script src="auth.js" defer></script>
+    <script src="login.js" defer></script>
   </head>
-  <body class="home-body">
-    <div class="text-card">
-      <h2 class="card-title">VeraOffice</h2>
-      <p class="card-text">logi in, create an account or sign out</p>
-
-      <div id="auth-container">
-        <input
-          type="email"
-          id="email"
-          class="auth-input"
-          placeholder="E-Mail-address"
-        />
-        <input
-          type="password"
-          id="password"
-          class="auth-input"
-          placeholder="Passwort"
-        />
-        <button class="card-button" onclick="signin()">sign in</button>
-        <button
-          class="card-button"
-          onclick="register()"
-          style="background-color: #4b5563"
-        >
-          register
-        </button>
-      </div>
-
-      <div id="dashboard-container" class="hidden">
-        <div class="user-info">
-          logged in as:<br /><strong id="user-email"></strong>
+  <body class="login-page">
+    <main class="login-layout">
+      <section class="login-intro" aria-labelledby="login-brand">
+        <a class="login-brand" href="index.html" id="login-brand">
+          Vera<span>Office</span>
+        </a>
+        <div class="login-intro-copy">
+          <p class="login-eyebrow">A calmer way to get work done</p>
+          <h1>Your workspace, ready when you are.</h1>
+          <p class="login-intro-text">
+            Sign in to pick up where you left off, or create an account to get
+            started with VeraOffice.
+          </p>
         </div>
-        <button class="card-button btn-danger" onclick="signout()">
-          sign out
-        </button>
-      </div>
-    </div>
+        <p class="login-footnote">Documents. Spreadsheets. Presentations.</p>
+      </section>
 
-    <script>
-      const supabaseUrl = "https://mmtlwtyyggwrqkylpqxv.supabase.co";
-      const supabaseAnonKey =
-        "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Im1tdGx3dHl5Z2d3cnFreWxwcXh2Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3OTI4MjYxNjAsImV4cCI6MjEwODQwMjE2MH0.HZKSAimGH8U87QW0KJmDXAaSUzf_0baYkDQ-5uUdPgM";
+      <section class="login-panel" aria-labelledby="login-title">
+        <div class="login-card">
+          <div id="auth-container">
+            <p class="login-eyebrow login-eyebrow-dark">Welcome to VeraOffice</p>
+            <h2 class="login-title" id="login-title">Sign in to your account</h2>
+            <p class="login-description" id="form-description">
+              Enter your details below to continue.
+            </p>
 
-      const supabaseClient = supabase.createClient(
-        supabaseUrl,
-        supabaseAnonKey,
-      );
+            <div class="auth-mode-switch" role="group" aria-label="Account action">
+              <button
+                class="auth-mode-button is-active"
+                id="signin-mode"
+                type="button"
+                aria-pressed="true"
+              >
+                Sign in
+              </button>
+              <button
+                class="auth-mode-button"
+                id="signup-mode"
+                type="button"
+                aria-pressed="false"
+              >
+                Create account
+              </button>
+            </div>
 
-      async function checkSession() {
-        const {
-          data: { session },
-        } = await supabaseClient.auth.getSession();
-        if (session) {
-          document.getElementById("auth-container").classList.add("hidden");
-          document
-            .getElementById("dashboard-container")
-            .classList.remove("hidden");
-          document.getElementById("user-email").innerText = session.user.email;
-        }
-      }
-      checkSession();
+            <form id="auth-form">
+              <label class="auth-label" for="email">Email address</label>
+              <input
+                class="auth-input"
+                id="email"
+                name="email"
+                type="email"
+                autocomplete="email"
+                placeholder="you@example.com"
+                required
+              />
 
-      async function register() {
-        const email = document.getElementById("email").value;
-        const password = document.getElementById("password").value;
+              <label class="auth-label" for="password">Password</label>
+              <input
+                class="auth-input"
+                id="password"
+                name="password"
+                type="password"
+                autocomplete="current-password"
+                minlength="8"
+                placeholder="At least 8 characters"
+                required
+              />
+              <p class="password-hint" id="password-hint">
+                Use at least 8 characters.
+              </p>
 
-        const { data, error } = await supabaseClient.auth.signUp({
-          email,
-          password,
-        });
-        if (error) {
-          alert("Registrierung fehlgeschlagen, Sir: " + error.message);
-        } else {
-          alert(
-            "Registrierung erfolgreich, Leutnant! Falls aktiv, prüfen Er Seinen Posteingang.",
-          );
-        }
-      }
+              <button class="login-submit" id="submit-button" type="submit">
+                Sign in
+              </button>
+            </form>
 
-      async function signin() {
-        const email = document.getElementById("email").value;
-        const password = document.getElementById("password").value;
+            <button
+              class="resend-button hidden"
+              id="resend-verification"
+              type="button"
+            >
+              Resend verification email
+            </button>
+            <p class="auth-message" id="auth-message" role="status" aria-live="polite"></p>
+          </div>
 
-        const { data, error } = await supabaseClient.auth.signInWithPassword({
-          email,
-          password,
-        });
-        if (error) {
-          alert(
-            "Zugriff verweigert, Leutnant! Falsche Papiere?: " + error.message,
-          );
-        } else {
-          alert("Willkommen zurück im Stützpunkt, Sir!");
-          location.reload();
-        }
-      }
+          <div class="account-panel hidden" id="dashboard-container">
+            <div class="account-check" aria-hidden="true">✓</div>
+            <p class="login-eyebrow login-eyebrow-dark">You’re all set</p>
+            <h2 class="login-title">Welcome to VeraOffice</h2>
+            <p class="login-description">
+              Signed in as <strong id="user-email"></strong>
+            </p>
+            <a class="login-submit account-open" id="open-app" href="app/app.html">
+              Open your workspace
+            </a>
+            <button class="resend-button account-signout" id="signout-button" type="button">
+              Sign out
+            </button>
+          </div>
 
-      async function signout() {
-        await supabaseClient.auth.signOut();
-        alert("Abgemeldet, Leutnant!");
-        location.reload();
-      }
-    </script>
+          <p class="login-legal">
+            By continuing, you agree to use VeraOffice responsibly.
+          </p>
+        </div>
+        <a class="back-home" href="index.html">← Back to VeraOffice</a>
+      </section>
+    </main>
   </body>
 </html>

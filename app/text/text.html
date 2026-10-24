@@ -5,8 +5,6 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>VeraOffice - App</title>
     <link rel="stylesheet" href="../../style-editor.css" />
-    <script src="text.js" defer></script>
-
     <!-- Google Fonts Poppins integration -->
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
@@ -14,10 +12,12 @@
       href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap"
       rel="stylesheet"
     />
-    <!-- supabase integration -->
     <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+    <script src="../../auth-config.js"></script>
+    <script src="../../auth.js" defer></script>
+    <script src="text.js" defer></script>
   </head>
-  <body class="editor-body">
+  <body class="editor-body" data-auth-required>
     <header class="header-container">
       <nav class="navbar">
         <ul class="nav-links">
