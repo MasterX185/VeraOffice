@@ -1,56 +1,65 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>VeraOffice - App</title>
-    <link rel="stylesheet" href="../../style-editor.css">
-    <script src="text.js" defer></script>
-
+    <link rel="stylesheet" href="../../style-editor.css" />
     <!-- Google Fonts Poppins integration -->
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap" rel="stylesheet">
-</head>
-<body class="editor-body">
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap"
+      rel="stylesheet"
+    />
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+    <script src="../../auth-config.js"></script>
+    <script src="../../auth.js" defer></script>
+    <script src="text.js" defer></script>
+  </head>
+  <body class="editor-body" data-auth-required>
     <header class="header-container">
-        <nav class="navbar">
-            <ul class="nav-links">
-                <li><a id="home-btn-text" href="../app.html">Home</a></li>
-                <li><a id="file-btn-text">File</a></li>
-                <li><a id="start-btn-text">Start</a></li>
-            </ul>
-        </nav>
+      <nav class="navbar">
+        <ul class="nav-links">
+          <li><a id="home-btn-text" href="../app.html">Home</a></li>
+          <li><a id="file-btn-text">File</a></li>
+          <li><a id="start-btn-text">Start</a></li>
+        </ul>
+      </nav>
 
-        <div id="start-text-toolbar" class="hidden">
-            <button id="insert-btn-start">insert</button>
-            <button id="copy-btn-start">copy</button>
-            <button onclick="document.execCommand('bold')">bold</button>
-            <button onclick="document.execCommand('italic')">italic</button>
+      <div id="start-text-toolbar" class="hidden">
+        <button id="insert-btn-start">insert</button>
+        <button id="copy-btn-start">copy</button>
+        <button onclick="document.execCommand('bold')">bold</button>
+        <button onclick="document.execCommand('italic')">italic</button>
 
-            <div class="toolbar-seperator"></div>
+        <div class="toolbar-seperator"></div>
 
-            <div class="size-combobox">
-                <input type="text" id="font-size-input" list="size-options" value="16px" placeholder="16px">
-            <datalist id="size-options">
-                <option value="12px"></option>
-                <option value="14px"></option>
-                <option value="16px"></option>
-                <option value="18px"></option>
-                <option value="24px"></option>
-                <option value="32px"></option>
-            </datalist>
-            
-            </div>
+        <div class="size-combobox">
+          <input
+            type="text"
+            id="font-size-input"
+            list="size-options"
+            value="16px"
+            placeholder="16px"
+          />
+          <datalist id="size-options">
+            <option value="12px"></option>
+            <option value="14px"></option>
+            <option value="16px"></option>
+            <option value="18px"></option>
+            <option value="24px"></option>
+            <option value="32px"></option>
+          </datalist>
         </div>
+      </div>
     </header>
 
-
     <main>
-        <div class="editor-container" contenteditable="true">
-            <h1>Document</h1>
-            <p>start to type...</p>
-        </div>
+      <div class="editor-container" contenteditable="true">
+        <h1>Document</h1>
+        <p>start to type...</p>
+      </div>
     </main>
-</body>
+  </body>
 </html>
