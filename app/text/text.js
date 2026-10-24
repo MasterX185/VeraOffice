@@ -92,20 +92,39 @@ document.addEventListener('DOMContentLoaded', () => {
     });
   }
 
+// undo and redo button logic
+
+let history = [];
+let historyIndex = -1;
+
+  if (editor) {
+    history.push(editor.innerHTML);
+    historyIndex++;
+
+    editor.addEventListener('input', () => {
+      history =history.slice(0, historyIndex +1);
+      history.push(editor.innerHTML);
+      historyIndex++;
+    });
+  }
 
   if (undoBtn) {
     undoBtn.addEventListener('click', () => {
-      document.execCommand('undo', false, null);
-      keepFocus();
-      updateButtonStates();
+      if (historyIndex > 0) {
+        historyIndex--;
+        editor.innerHTML = history[historyIndex];
+        keepFocus();
+      }
     });
   }
 
   if (redoBtn) {
     redoBtn.addEventListener('click', () => {
-      document.execCommand('redo', false, null);
-      keepFocus();
-      updateButtonStates();
+      if (historyIndex < history.length -1) {
+        historyIndex++;
+        editor.innerHTML = history[historyIndex];
+        keepFocus();
+      }
     });
   }
 
