@@ -27,19 +27,29 @@
     return new URL("app/app.html", siteUrl).href;
   }
 
-  function redirectToLogin(issue) {
-    const loginUrl = new URL("login.html", siteUrl);
-    loginUrl.searchParams.set(
-      "next",
-      `${location.pathname}${location.search}${location.hash}`,
-    );
-    if (issue) loginUrl.searchParams.set("issue", issue);
-    location.replace(loginUrl.href);
-  }
+  function updateAccountControl(user) {
+    const signInLink = document.querySelector("[data-auth-link]");
+    const nav = signInLink?.closest(".nav-links");
+    if (!signInLink || !nav) return;
 
-  function addAccountControl(email) {
-    const nav = document.querySelector(".nav-links");
-    if (!nav || nav.querySelector("[data-account-control]")) return;
+    const existingControl = nav.querySelector("[data-account-control]");
+    if (!user?.email_confirmed_at) {
+      existingControl?.remove();
+      const signInItem = signInLink.closest("li");
+      if (signInItem) signInItem.hidden = false;
+      return;
+    }
+
+    const signInItem = signInLink.closest("li");
+    if (signInItem) signInItem.hidden = true;
+    if (existingControl) {
+      const identity = existingControl.querySelector(".nav-account-email");
+      if (identity) {
+        identity.textContent = user.email || "Account";
+        identity.title = user.email || "Account";
+      }
+      return;
+    }
 
     const item = document.createElement("li");
     item.dataset.accountControl = "";
@@ -47,8 +57,8 @@
 
     const identity = document.createElement("span");
     identity.className = "nav-account-email";
-    identity.textContent = email;
-    identity.title = email;
+    identity.textContent = user.email || "Account";
+    identity.title = user.email || "Account";
 
     const signOut = document.createElement("button");
     signOut.className = "nav-account-signout";
@@ -61,9 +71,7 @@
         signOut.disabled = false;
         signOut.textContent = "Could not sign out";
         console.error("VeraOffice sign-out failed:", error.message);
-        return;
       }
-      location.assign(new URL("login.html", siteUrl).href);
     });
 
     item.append(identity, signOut);
@@ -77,44 +85,17 @@
     getRedirectTarget,
   });
 
-  if (document.body?.hasAttribute("data-auth-required")) {
-    document.documentElement.classList.add("auth-pending");
-    const protectPage = async () => {
-      if (!client) {
-        redirectToLogin("configuration");
-        return;
-      }
+  if (client && document.querySelector("[data-auth-link]")) {
+    client.auth.onAuthStateChange((_event, session) => {
+      updateAccountControl(session?.user || null);
+    });
 
-      const { data, error } = await client.auth.getSession();
+    client.auth.getSession().then(({ data, error }) => {
       if (error) {
-        console.error("VeraOffice session check failed:", error.message);
-        redirectToLogin("session");
+        console.error("Could not read VeraOffice account session:", error.message);
         return;
       }
-
-      const session = data.session;
-      if (!session) {
-        redirectToLogin();
-        return;
-      }
-
-      if (!session.user.email_confirmed_at) {
-        const { error: signOutError } = await client.auth.signOut();
-        if (signOutError) {
-          console.error("Could not clear an unverified session:", signOutError.message);
-        }
-        redirectToLogin("unverified");
-        return;
-      }
-
-      addAccountControl(session.user.email || "Account");
-      document.documentElement.classList.remove("auth-pending");
-
-      client.auth.onAuthStateChange((event) => {
-        if (event === "SIGNED_OUT") redirectToLogin("signed-out");
-      });
-    };
-
-    protectPage();
+      updateAccountControl(data.session?.user || null);
+    });
   }
 })();

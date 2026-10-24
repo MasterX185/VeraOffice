@@ -15,6 +15,10 @@ document.addEventListener("DOMContentLoaded", () => {
   const issue = new URLSearchParams(location.search).get("issue");
   let mode = "signin";
 
+  document.getElementById("guest-open").href = auth
+    ? auth.getRedirectTarget()
+    : "app/app.html";
+
   function setMessage(text, kind = "") {
     message.textContent = text;
     message.className = `auth-message${kind ? ` is-${kind}` : ""}`;
@@ -52,8 +56,8 @@ document.addEventListener("DOMContentLoaded", () => {
       ? "Sign in to your account"
       : "Create your account";
     document.getElementById("form-description").textContent = signingIn
-      ? "Enter your details below to continue."
-      : "Create an account to start using VeraOffice.";
+      ? "Sign in if you have an account. An account is optional."
+      : "Create an account if you want one. An account is optional.";
     passwordInput.autocomplete = signingIn ? "current-password" : "new-password";
     passwordInput.minLength = signingIn ? 1 : 8;
     passwordInput.placeholder = signingIn ? "Your password" : "At least 8 characters";
@@ -106,7 +110,7 @@ document.addEventListener("DOMContentLoaded", () => {
     } else if (issue === "session") {
       setMessage("We could not verify your session. Please sign in again.", "error");
     } else if (issue === "configuration") {
-      setMessage("Set up Supabase in auth-config.js before accessing the workspace.", "error");
+      setMessage("Set up Supabase in auth-config.js to use account features. Guest access does not require it.", "info");
     } else if (issue === "signed-out") {
       setMessage("You have been signed out.", "info");
     }

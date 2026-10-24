@@ -629,6 +629,28 @@
     color: #315c9f;
 }
 
+.guest-link {
+    min-height: 44px;
+    margin-top: 8px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border: 1px solid #d7dfeb;
+    border-radius: 9px;
+    color: #31517e;
+    background: #ffffff;
+    font-size: 0.86rem;
+    font-weight: 600;
+    text-align: center;
+    text-decoration: none;
+    transition: border-color 0.18s ease, background-color 0.18s ease;
+}
+
+.guest-link:hover {
+    border-color: #a9bfdf;
+    background: #f7faff;
+}
+
 .login-legal {
     margin-top: 24px;
     color: #8290a4;
@@ -685,10 +707,6 @@
 
 .login-page .hidden {
     display: none !important;
-}
-
-.auth-pending body {
-    visibility: hidden;
 }
 
 .nav-account {
