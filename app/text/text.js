@@ -1,17 +1,47 @@
 document.addEventListener('DOMContentLoaded', () => {
-
+//general
   const homeButton = document.getElementById('home-btn-text');
   const startButton = document.getElementById('start-btn-text');
-  const toolbar = document.getElementById('start-text-toolbar');
   const editor = document.querySelector('.editor-container');
-
+  const fileButton = document.getElementById('file-btn-text');
+//toolbar-start
+  const toolbarStart = document.getElementById('start-text-toolbar');
   const boldBtn = document.getElementById('bold-btn');
   const italicBtn = document.getElementById('italic-btn');
   const fontSizeInput = document.getElementById('font-size-input');
   const insertBtn = document.getElementById('insert-btn-start');
   const copyBtn = document.getElementById('copy-btn-start');
   const clipboardStatus = document.getElementById('clipboard-status');
+//toolbar-file
+  const toolbarFile = document.getElementById('file-text-toolbar');
+  const saveButton = document. getElementById('save-btn-file');
+//general
+  function keepFocus() {
+      editor.focus();
+    }
 
+
+  if (editor) {
+    editor.addEventListener('keyup', updateButtonStates);
+    editor.addEventListener('click', updateButtonStates);
+  }
+
+  function updateButtonStates() {
+    if (!boldBtn || !italicBtn) return;
+
+    if (document.queryCommandState('bold')) {
+      boldBtn.classList.add('active-tool');
+    } else {
+      boldBtn.classList.remove('active-tool');
+    }
+
+    if (document.queryCommandState('italic')) {
+      italicBtn.classList.add('active-tool');
+    } else {
+      italicBtn.classList.remove('active-tool');
+    }
+  }
+//toolbar-start
   function showClipboardStatus(message) {
     if (clipboardStatus) {
       clipboardStatus.textContent = message;
@@ -50,15 +80,19 @@ document.addEventListener('DOMContentLoaded', () => {
     );
   }
 
-  if (startButton && toolbar) {
+  if (startButton && toolbarStart) {
     startButton.addEventListener('click', () => {
-      toolbar.classList.toggle('hidden');
+      toolbarStart.classList.toggle('hidden');
+
+      if (toolbarFile) {
+        toolbarFile.classList.add('hidden');
+      }
     });
   }
 
-  function keepFocus() {
-    editor.focus();
-  }
+  
+
+  
 
   if (copyBtn) {
     copyBtn.addEventListener('click', async () => {
@@ -171,25 +205,41 @@ document.addEventListener('DOMContentLoaded', () => {
       });
     });
   }
+//toolbar-file
+  if (fileButton && toolbarFile) {
+    fileButton.addEventListener('click', () => {
+      toolbarFile.classList.toggle('hidden');
 
-  if (editor) {
-    editor.addEventListener('keyup', updateButtonStates);
-    editor.addEventListener('click', updateButtonStates);
+      if (toolbarStart) {
+        toolbarStart.classList.add('hidden');
+      }
+    });
   }
 
-  function updateButtonStates() {
-    if (!boldBtn || !italicBtn) return;
+  if (saveButton && editor) {
+  saveButton.addEventListener('click', () => {
+    const documentHtml = `<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Document</title>
+</head>
+<body>
+  ${editor.innerHTML}
+</body>
+</html>`;
 
-    if (document.queryCommandState('bold')) {
-      boldBtn.classList.add('active-tool');
-    } else {
-      boldBtn.classList.remove('active-tool');
-    }
+    const file = new Blob([documentHtml], { type: 'text/html' });
+    const downloadUrl = URL.createObjectURL(file);
+    const link = document.createElement('a');
 
-    if (document.queryCommandState('italic')) {
-      italicBtn.classList.add('active-tool');
-    } else {
-      italicBtn.classList.remove('active-tool');
-    }
-  }
+    link.href = downloadUrl;
+    link.download = 'document.html';
+    link.click();
+
+    URL.revokeObjectURL(downloadUrl);
+  });
+}
+
+  
 });
