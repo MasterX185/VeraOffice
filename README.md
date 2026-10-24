@@ -1,8 +1,8 @@
 # VeraOffice
 
-VeraOffice is a static office-suite website. Its login and account registration
-use Supabase Auth; no service-role key or custom server is included in this
-repository.
+VeraOffice is a static office-suite website. Its editors can be opened without
+an account. Optional login and registration use Supabase Auth; no service-role
+key or custom server is included in this repository.
 
 ## Configure authentication
 
@@ -18,25 +18,30 @@ repository.
 4. In **Authentication → Providers → Email**, enable email signups and turn on
    **Confirm email**. Set up SMTP for production delivery and check the
    confirmation email template. Confirmation links return to `login.html`.
-5. Serve the site over HTTPS in production. Add an account and verify its
-   email before signing in.
+5. Serve the site over HTTPS in production.
 
-The signup form sends a confirmation email and offers a resend action.
-Unverified sessions are signed out and cannot open the app. The login page
-accepts Supabase's email-confirmation callback and provides a link to the
-requested page, or to `app/app.html` when there is no requested destination.
+Email verification applies only when someone chooses to create an account; it
+is not required to use the editors. The signup form offers a resend action.
+The login page accepts Supabase's email-confirmation callback and provides a
+link to the requested page, or to `app/app.html` when there is no requested
+destination.
 
-## Apply authentication across the site
+### Verification email troubleshooting
 
-The shared client and session guard live in [auth.js](./auth.js), with project
-settings in [auth-config.js](./auth-config.js). The app dashboard and text
-editor already load these files and use `data-auth-required`. To protect a
-new page, load the Supabase CDN, `auth-config.js`, and `auth.js` in that order
-and add `data-auth-required` to its `<body>`. The shared script redirects
-visitors to `login.html`, preserves their destination, and adds a sign-out
-control after verifying the session.
+Supabase's built-in SMTP service is for testing and restricts delivery to
+addresses belonging to project organization members. For normal users, set up
+a custom SMTP provider under **Authentication → Emails → SMTP Settings**,
+verify its sender domain, and check the project's Auth logs and email rate
+limits if delivery still fails. See Supabase's
+[SMTP setup guide](https://supabase.com/docs/guides/auth/auth-smtp).
 
-This page guard is a navigation/UX check, not an authorization boundary.
-Static HTML and JavaScript cannot protect data or prevent direct API calls.
-For any private data, enforce access with Supabase Row Level Security policies
-and verify authorization in trusted server-side code or database policies.
+## Optional authentication
+
+The shared login client lives in [auth.js](./auth.js), with project settings
+in [auth-config.js](./auth-config.js). The dashboard and text editor do not
+load the auth client and remain accessible as a guest. Accounts currently do
+not enable document sync or storage.
+
+Static HTML and JavaScript cannot protect private data. If account-based
+document sync or other private features are added, enforce access with
+Supabase Row Level Security policies and trusted server-side authorization.
