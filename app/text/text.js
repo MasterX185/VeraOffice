@@ -1,10 +1,12 @@
 document.addEventListener('DOMContentLoaded', () => {
 //general
-  const homeButton = document.getElementById('home-btn-text');
-  const startButton = document.getElementById('start-btn-text');
+  const homeBtn = document.getElementById('home-btn-text');
+  const startBtn = document.getElementById('start-btn-text');
   const editor = document.querySelector('.editor-container');
-  const fileButton = document.getElementById('file-btn-text');
+  const fileBtn = document.getElementById('file-btn-text');
 //toolbar-start
+  const undoBtn = document.getElementById('undo-btn');
+  const redoBtn = document.getElementById('redo-btn');
   const toolbarStart = document.getElementById('start-text-toolbar');
   const boldBtn = document.getElementById('bold-btn');
   const italicBtn = document.getElementById('italic-btn');
@@ -14,7 +16,7 @@ document.addEventListener('DOMContentLoaded', () => {
   const clipboardStatus = document.getElementById('clipboard-status');
 //toolbar-file
   const toolbarFile = document.getElementById('file-text-toolbar');
-  const saveButton = document. getElementById('save-btn-file');
+  const saveBtn = document. getElementById('save-btn-file');
 //general
   function keepFocus() {
       editor.focus();
@@ -74,14 +76,14 @@ document.addEventListener('DOMContentLoaded', () => {
     }
   }
 
-  if (homeButton) {
-    homeButton.addEventListener('click', () =>
+  if (homeBtn) {
+    homeBtn.addEventListener('click', () =>
       console.log('home-button pressed')
     );
   }
 
-  if (startButton && toolbarStart) {
-    startButton.addEventListener('click', () => {
+  if (startBtn && toolbarStart) {
+    startBtn.addEventListener('click', () => {
       toolbarStart.classList.toggle('hidden');
 
       if (toolbarFile) {
@@ -90,9 +92,22 @@ document.addEventListener('DOMContentLoaded', () => {
     });
   }
 
-  
 
-  
+  if (undoBtn) {
+    undoBtn.addEventListener('click', () => {
+      document.execCommand('undo', false, null);
+      keepFocus();
+      updateButtonStates();
+    });
+  }
+
+  if (redoBtn) {
+    redoBtn.addEventListener('click', () => {
+      document.execCommand('redo', false, null);
+      keepFocus();
+      updateButtonStates();
+    });
+  }
 
   if (copyBtn) {
     copyBtn.addEventListener('click', async () => {
@@ -206,8 +221,8 @@ document.addEventListener('DOMContentLoaded', () => {
     });
   }
 //toolbar-file
-  if (fileButton && toolbarFile) {
-    fileButton.addEventListener('click', () => {
+  if (fileBtn && toolbarFile) {
+    fileBtn.addEventListener('click', () => {
       toolbarFile.classList.toggle('hidden');
 
       if (toolbarStart) {
@@ -216,8 +231,8 @@ document.addEventListener('DOMContentLoaded', () => {
     });
   }
 
-  if (saveButton && editor) {
-  saveButton.addEventListener('click', () => {
+  if (saveBtn && editor) {
+  saveBtn.addEventListener('click', () => {
     const documentHtml = `<!doctype html>
 <html lang="en">
 <head>
