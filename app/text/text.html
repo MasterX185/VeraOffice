@@ -28,13 +28,18 @@
         </ul>
       </nav>
 
-      <div id="start-text-toolbar" class="hidden">
+      <div id="file-text-toolbar" class="hidden toolbar">
+        <button id="save-btn-file">Save</button>
+      </div>
+
+      <div id="start-text-toolbar" class="hidden toolbar">
         <button id="insert-btn-start">insert</button>
         <button id="copy-btn-start">copy</button>
         <button onclick="document.execCommand('bold')">bold</button>
         <button onclick="document.execCommand('italic')">italic</button>
+        <span id="clipboard-status" role="status" aria-live="polite"></span>
 
-        <div class="toolbar-seperator"></div>
+        <div class="toolbar-separator"></div>
 
         <div class="size-combobox">
           <input
