@@ -7,8 +7,8 @@ document.addEventListener('DOMContentLoaded', () => {
   // general
   const homeButton = document.getElementById('home-btn-text');
   const startButton = document.getElementById('start-btn-text');
-  const editor = document.querySelector('.editor-container');
   const fileButton = document.getElementById('file-btn-text');
+  const canvas = document.getElementById('canvas-sheets');
 
   // toolbar-start
   const toolbarStart = document.getElementById('start-text-toolbar');
@@ -17,8 +17,8 @@ document.addEventListener('DOMContentLoaded', () => {
   const undoBtn = document.getElementById('undo-btn');
   const redoBtn = document.getElementById('redo-btn');
   const fontSizeInput = document.getElementById('font-size-input');
-  const insertBtn = document.getElementById('insert-btn-start');
-  const copyBtn = document.getElementById('copy-btn-start');
+  const insertBtn = document.getElementById('insert-btn-sheets');
+  const copyBtn = document.getElementById('copy-btn-sheets');
   const clipboardStatus = document.getElementById('clipboard-status');
 
   // toolbar-file
@@ -301,3 +301,11 @@ document.addEventListener('DOMContentLoaded', () => {
     });
   }
 });
+
+//canvas
+canvas.width = canvas.clientWidth;
+canvas.height = canvas.clientHeight;
+
+const ctx = canvas.getContext('2d');
+ctx.fillStyle = '#007bff';
+ctx.fillRect(0, 0, canvas.width, canvas.height);
