@@ -6,13 +6,17 @@
     <title>VeraOffice - App</title>
     <link rel="stylesheet" href="../style.css">
 
-    <!-- Google Fonts Poppins integration -->
+     <!-- Google Fonts Poppins integration -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap" rel="stylesheet">
     <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
     <script src="../auth-config.js"></script>
     <script src="../auth.js" defer></script>
+
+    <!-- Lucide Icons CDN -->
+    <script src="https://unpkg.com/lucide@latest"></script>
+
 </head>
 <body class="app-body">
     <header class="header-container">
@@ -53,8 +57,7 @@
             
             
             <div class="dashboard-grid">
-                
-               
+                <!-- Text Documents -->
                 <div class="app-card text-app">
                     <div class="card-icon-wrapper">
                         <i data-lucide="file-text"></i>
@@ -69,7 +72,7 @@
                     </div>
                 </div>
 
-               
+                <!-- Spreadsheets -->
                 <div class="app-card sheets-app">
                     <div class="card-icon-wrapper">
                         <i data-lucide="table"></i>
@@ -84,6 +87,7 @@
                     </div>
                 </div>
 
+                <!-- Presentations -->
                 <div class="app-card presentations-app">
                     <div class="card-icon-wrapper">
                         <i data-lucide="presentation"></i>
@@ -97,10 +101,14 @@
                         </a>
                     </div>
                 </div>
-
             </div>
         </main>
     </div>
+
+
+    <script>
+        lucide.createIcons();
+    </script>
 
     
 </body>
