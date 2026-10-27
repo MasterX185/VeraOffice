@@ -1,10 +1,20 @@
 
+:root {
+    --primary-color: #2563eb;
+    --text-main: #1f2937;
+    --text-muted: #4b5563;
+    --bg-navbar: rgba(255, 255, 255, 0.85);
+    --border-color: rgba(0, 0, 0, 0.06);
+}
+
 * {
     margin: 0;
     padding: 0;
     box-sizing: border-box;
     font-family: 'Poppins', sans-serif;
 }
+
+
 
 main {
     display: flex;
@@ -197,4 +207,92 @@ canvas {
     height: 90%;
     border: 1px solid #ccc;
     background-color: #ffffff;
+}
+
+@media (prefers-color-scheme: dark) {
+    :root {
+        color-scheme: dark;
+        --primary-color: #93c5fd;
+        --text-main: #e5e7eb;
+        --text-muted: #a9b5c6;
+        --bg-navbar: rgba(15, 23, 42, 0.94);
+        --border-color: rgba(148, 163, 184, 0.18);
+        --editor-surface: #111b2e;
+        --editor-control-hover: #26364f;
+        --editor-border: #35445c;
+    }
+
+    .editor-body,
+    .editor-body main {
+        color: var(--text-main);
+        background-color: #0b1120;
+    }
+
+    .toolbar {
+        background-color: var(--editor-surface);
+        border-bottom-color: var(--border-color);
+        box-shadow: 0 2px 8px rgba(0, 0, 0, 0.24);
+    }
+
+    .toolbar button {
+        color: var(--text-main);
+    }
+
+    .toolbar button:hover,
+    .toolbar button:active,
+    .toolbar button.active-tool {
+        color: #eff6ff;
+        background-color: var(--editor-control-hover) !important;
+        border-color: var(--editor-border) !important;
+    }
+
+    .toolbar select,
+    .size-combobox input {
+        color: var(--text-main);
+        background-color: #0b1424;
+        border-color: var(--editor-border);
+    }
+
+    .toolbar select:hover,
+    .size-combobox input:hover,
+    .size-combobox input:focus {
+        border-color: var(--primary-color);
+    }
+
+    #clipboard-status {
+        color: var(--text-muted);
+    }
+
+    .toolbar-separator {
+        background-color: var(--editor-border);
+    }
+
+    .header-container {
+        border-bottom-color: var(--border-color);
+    }
+
+    .nav-links a {
+        color: var(--text-muted);
+    }
+
+    .nav-links a:hover {
+        color: var(--text-main);
+        background-color: rgba(148, 163, 184, 0.12);
+    }
+
+    .nav-links a.active {
+        color: var(--primary-color);
+        background-color: rgba(96, 165, 250, 0.14);
+    }
+
+    .editor-container {
+        color: #1f2937;
+        background-color: #ffffff;
+        border-color: var(--border-color);
+    }
+
+    canvas {
+        border-color: var(--editor-border);
+        background-color: #ffffff;
+    }
 }
