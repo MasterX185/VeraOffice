@@ -209,6 +209,37 @@ canvas {
     background-color: #ffffff;
 }
 
+
+.spreadsheet-container {
+  display: grid;
+  grid-template-columns: repeat(5, 120px); 
+  gap: 1px;
+  background-color: #ccc;
+  border: 1px solid #ccc;
+  display: inline-grid;
+}
+
+.cell {
+  background-color: #fff;
+  padding: 8px;
+  min-height: 20px;
+  outline: none;
+  font-size: 14px;
+}
+
+.header-cell {
+  background-color: #e1e3e6;
+  font-weight: bold;
+  text-align: center;
+  user-select: none;
+}
+
+.cell:focus {
+  background-color: #e8f0fe;
+  box-shadow: inset 0 0 0 2px #1a73e8;
+}
+
+
 @media (prefers-color-scheme: dark) {
     :root {
         color-scheme: dark;
@@ -221,6 +252,35 @@ canvas {
         --editor-control-hover: #26364f;
         --editor-border: #35445c;
     }
+
+    .spreadsheet-container {
+  display: grid;
+  grid-template-columns: repeat(5, 120px); 
+  gap: 1px;
+  background-color: #ccc;
+  border: 1px solid #ccc;
+  display: inline-grid;
+}
+
+.cell {
+  background-color: #fff;
+  padding: 8px;
+  min-height: 20px;
+  outline: none;
+  font-size: 14px;
+}
+
+.header-cell {
+  background-color: #e1e3e6;
+  font-weight: bold;
+  text-align: center;
+  user-select: none;
+}
+
+.cell:focus {
+  background-color: #e8f0fe;
+  box-shadow: inset 0 0 0 2px #1a73e8;
+}
 
     .editor-body,
     .editor-body main {
