@@ -211,20 +211,26 @@ canvas {
 
 
 .spreadsheet-container {
-  display: grid;
-  grid-template-columns: repeat(5, 120px); 
+  display: inline-grid;
+  grid-template-columns: 40px repeat(10, 120px);
   gap: 1px;
   background-color: #ccc;
   border: 1px solid #ccc;
-  display: inline-grid;
+  width: max-content;
+  overflow: auto;
+  margin: 24px auto;
 }
 
 .cell {
   background-color: #fff;
   padding: 8px;
-  min-height: 20px;
+  min-height: 36px;
+  min-width: 120px;
   outline: none;
   font-size: 14px;
+  display: flex;
+  align-items: center;
+  justify-content: flex-start;
 }
 
 .header-cell {
@@ -232,6 +238,16 @@ canvas {
   font-weight: bold;
   text-align: center;
   user-select: none;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.corner-cell,
+.row-label {
+  min-width: 40px;
+  width: 40px;
+  padding: 0;
 }
 
 .cell:focus {
@@ -254,33 +270,49 @@ canvas {
     }
 
     .spreadsheet-container {
-  display: grid;
-  grid-template-columns: repeat(5, 120px); 
-  gap: 1px;
-  background-color: #ccc;
-  border: 1px solid #ccc;
-  display: inline-grid;
-}
+      display: inline-grid;
+      grid-template-columns: 40px repeat(10, 120px);
+      gap: 1px;
+      background-color: #ccc;
+      border: 1px solid #ccc;
+      width: max-content;
+      overflow: auto;
+      margin: 24px auto;
+    }
 
-.cell {
-  background-color: #fff;
-  padding: 8px;
-  min-height: 20px;
-  outline: none;
-  font-size: 14px;
-}
+    .cell {
+      background-color: #383838;
+      padding: 8px;
+      min-height: 36px;
+      min-width: 120px;
+      outline: none;
+      font-size: 14px;
+      display: flex;
+      align-items: center;
+      justify-content: flex-start;
+    }
 
-.header-cell {
-  background-color: #e1e3e6;
-  font-weight: bold;
-  text-align: center;
-  user-select: none;
-}
+    .header-cell {
+      background-color: #000000;
+      font-weight: bold;
+      text-align: center;
+      user-select: none;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
 
-.cell:focus {
-  background-color: #e8f0fe;
-  box-shadow: inset 0 0 0 2px #1a73e8;
-}
+    .corner-cell,
+    .row-label {
+      min-width: 40px;
+      width: 40px;
+      padding: 0;
+    }
+
+    .cell:focus {
+      background-color: #0f264f;
+      box-shadow: inset 0 0 0 2px #1a73e8;
+    }
 
     .editor-body,
     .editor-body main {
