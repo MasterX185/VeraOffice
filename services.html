@@ -1,0 +1,117 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Services - VeraOffice</title>
+    <!-- Google Fonts Poppins integration -->
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap"
+      rel="stylesheet"
+    />
+    <link rel="stylesheet" href="style.css" />
+    <link rel="icon" type="image/svg+xml" href="/favicon.svg">
+    <!-- Vercel Web Analytics -->
+    <script defer src="https://cdn.vercel-insights.com/v1/script.js"></script>
+    <!-- supabase integration -->
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+    <script src="auth-config.js"></script>
+    <script src="auth.js" defer></script>
+  </head>
+  <body class="home-body">
+    <header class="header-container">
+      <nav class="navbar">
+        <!-- Logo -->
+        <div class="nav-logo">
+          <a href="index.html">Vera<span class="logo-accent">Office</span></a>
+        </div>
+
+        <!-- Navigation Links -->
+        <ul class="nav-links">
+          <li><a href="index.html">Home</a></li>
+          <li><a href="about.html">About</a></li>
+          <li><a href="services.html" class="active">Services</a></li>
+          <li><a href="contact.html">Contact</a></li>
+          <li><a href="credits.html">Credits</a></li>
+          <li><a href="login.html" data-auth-link>Sign in (optional)</a></li>
+          <!-- Call to Action Button -->
+          <li><a href="app/app.html" class="btn-cta">Open App</a></li>
+        </ul>
+      </nav>
+    </header>
+
+    <main class="hero-section">
+      <div class="hero-text-block">
+        <h1 class="hero-title">Our Services</h1>
+        <h2 class="hero-subtitle">Everything You Need to Be Productive</h2>
+      </div>
+
+      <div class="cards-container">
+        <!-- Spreadsheets -->
+        <div class="text-card">
+          <h2>Spreadsheets</h2>
+          <h3 class="card-title">Powerful Data Management</h3>
+          <p class="card-text">
+            Create complex spreadsheets with formulas, charts, and data analysis
+            tools. Perfect for budgets, data tracking, and calculations.
+          </p>
+          <a href="app/sheets/sheets.html" class="card-button"
+            >Try Spreadsheets</a
+          >
+        </div>
+
+        <!-- Text Documents -->
+        <div class="text-card">
+          <h2>Text Documents</h2>
+          <h3 class="card-title">Professional Writing Tools</h3>
+          <p class="card-text">
+            Write documents with rich text formatting, customizable styles, and
+            collaborative editing features for all your writing needs.
+          </p>
+          <a href="app/text/text.html" class="card-button">Try Text Editor</a>
+        </div>
+
+        <!-- Presentations -->
+        <div class="text-card">
+          <h2>Presentations</h2>
+          <h3 class="card-title">Engaging Presentations</h3>
+          <p class="card-text">
+            Design and deliver stunning presentations with our intuitive editor.
+            Perfect for meetings, classes, and conferences.
+          </p>
+          <a href="app/presentations/presentations.html" class="card-button"
+            >Try Presentations</a
+          >
+        </div>
+      </div>
+
+      <div class="cards-container">
+        <div class="text-card">
+          <h2>No Installation Required</h2>
+          <p class="card-text">
+            Access all tools directly from your browser. Work from anywhere,
+            on any device.
+          </p>
+        </div>
+
+        <div class="text-card">
+          <h2>Optional Account</h2>
+          <p class="card-text">
+            Use all features as a guest, or create an optional account for
+            additional features.
+          </p>
+        </div>
+
+        <div class="text-card">
+          <h2>Free & Open Source</h2>
+          <p class="card-text">
+            All services are completely free to use. No hidden costs, no
+            subscriptions.
+          </p>
+        </div>
+      </div>
+    </main>
+  </body>
+</html>
