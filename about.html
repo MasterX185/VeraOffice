@@ -1,0 +1,78 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>About - VeraOffice</title>
+    <!-- Google Fonts Poppins integration -->
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap"
+      rel="stylesheet"
+    />
+    <link rel="stylesheet" href="style.css" />
+    <link rel="icon" type="image/svg+xml" href="/favicon.svg">
+    <!-- Vercel Web Analytics -->
+    <script defer src="https://cdn.vercel-insights.com/v1/script.js"></script>
+    <!-- supabase integration -->
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+    <script src="auth-config.js"></script>
+    <script src="auth.js" defer></script>
+  </head>
+  <body class="home-body">
+    <header class="header-container">
+      <nav class="navbar">
+        <!-- Logo -->
+        <div class="nav-logo">
+          <a href="index.html">Vera<span class="logo-accent">Office</span></a>
+        </div>
+
+        <!-- Navigation Links -->
+        <ul class="nav-links">
+          <li><a href="index.html">Home</a></li>
+          <li><a href="about.html" class="active">About</a></li>
+          <li><a href="services.html">Services</a></li>
+          <li><a href="contact.html">Contact</a></li>
+          <li><a href="credits.html">Credits</a></li>
+          <li><a href="login.html" data-auth-link>Sign in (optional)</a></li>
+          <!-- Call to Action Button -->
+          <li><a href="app/app.html" class="btn-cta">Open App</a></li>
+        </ul>
+      </nav>
+    </header>
+
+    <main class="hero-section">
+      <div class="hero-text-block">
+        <h1 class="hero-title">About VeraOffice</h1>
+        <h2 class="hero-subtitle">Open Source Office Suite</h2>
+      </div>
+
+      <div class="cards-container">
+        <div class="text-card">
+          <h2>Our Mission</h2>
+          <p class="card-text">
+            VeraOffice is an open-source office suite designed to provide
+            powerful productivity tools that are accessible to everyone.
+          </p>
+        </div>
+
+        <div class="text-card">
+          <h2>What We Offer</h2>
+          <p class="card-text">
+            Create documents, spreadsheets, and presentations with our
+            intuitive web-based tools. No installation required.
+          </p>
+        </div>
+
+        <div class="text-card">
+          <h2>Open Source</h2>
+          <p class="card-text">
+            VeraOffice is built with transparency and collaboration in mind.
+            Anyone can contribute to make it better.
+          </p>
+        </div>
+      </div>
+    </main>
+  </body>
+</html>
