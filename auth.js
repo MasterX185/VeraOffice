@@ -51,6 +51,14 @@
       return;
     }
 
+    const openAccount = document.createElement("button");
+    openAccount.className = "nav-account-signout";
+    openAccount.type = "button";
+    openAccount.textContent = "Open Account";
+    openAccount.addEventListener("click", () => {
+      window.location.assign(new URL("account.html", siteUrl).href);
+    });
+
     const item = document.createElement("li");
     item.dataset.accountControl = "";
     item.className = "nav-account";
@@ -74,7 +82,7 @@
       }
     });
 
-    item.append(identity, signOut);
+    item.append(identity, openAccount, signOut);
     nav.append(item);
   }
 
