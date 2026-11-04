@@ -1,4 +1,9 @@
 document.addEventListener('DOMContentLoaded', () => {
+//supabase
+  const supabase = window.supabaseClient || window.supabase;
+  console.log("URL:", window.VeraOfficeAuthConfig?.supabaseUrl);
+  
+  console.log("Anon Key:", window.VeraOfficeAuthConfig?.supabaseAnonKey);
   const client = window.VeraOfficeAuth?.client;
   const logoutButton = document.getElementById('logout-btn');
 
