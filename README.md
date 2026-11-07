@@ -1,47 +1,178 @@
 # VeraOffice
 
-VeraOffice is a static office-suite website. Its editors can be opened without
-an account. Optional login and registration use Supabase Auth; no service-role
-key or custom server is included in this repository.
+> A lightweight, browser-based office suite providing simple productivity tools directly in your browser.
 
-## Configure authentication
+**VeraOffice** is built with plain HTML, CSS, and vanilla JavaScript. It requires no build system, package manager, or complex setup.
 
-1. Create or open the Supabase project used by the site.
-2. In **Project Settings → API**, copy the project URL and its **anon** or
-   **publishable** key. Set them in [auth-config.js](./auth-config.js). These
-   client-side values are public; never put a service-role/secret key in the
-   website.
-3. In **Authentication → URL Configuration**, add the deployed site URL as a
-   Site URL and add the full deployed `login.html` URL to the Redirect URLs
-   allow list. For local testing, use a local web server and allow its
-   `login.html` URL too; opening the pages with `file://` is not supported.
-4. In **Authentication → Providers → Email**, enable email signups and turn on
-   **Confirm email**. Set up SMTP for production delivery and check the
-   confirmation email template. Confirmation links return to `login.html`.
-5. Serve the site over HTTPS in production.
+---
 
-Email verification applies only when someone chooses to create an account; it
-is not required to use the editors. The signup form offers a resend action.
-The login page accepts Supabase's email-confirmation callback and provides a
-link to the requested page, or to `app/app.html` when there is no requested
-destination.
+## 📌 Project Status
 
-### Verification email troubleshooting
+VeraOffice is currently **under active development**. Some features are fully functional, while others are experimental or placeholders for future releases.
 
-Supabase's built-in SMTP service is for testing and restricts delivery to
-addresses belonging to project organization members. For normal users, set up
-a custom SMTP provider under **Authentication → Emails → SMTP Settings**,
-verify its sender domain, and check the project's Auth logs and email rate
-limits if delivery still fails. See Supabase's
-[SMTP setup guide](https://supabase.com/docs/guides/auth/auth-smtp).
+---
 
-## Optional authentication
+## ✨ Features
 
-The shared login client lives in [auth.js](./auth.js), with project settings
-in [auth-config.js](./auth-config.js). The dashboard and text editor do not
-load the auth client and remain accessible as a guest. Accounts currently do
-not enable document sync or storage.
+### 📝 Text Editor
+- Write and edit text directly in your browser.
+- Basic formatting (Bold, Italic, Font size adjustments).
+- Undo and redo history.
+- Full clipboard support.
+- Export documents as `.html` files.
+- Optional cloud saving via [Supabase](https://supabase.com/).
 
-Static HTML and JavaScript cannot protect private data. If account-based
-document sync or other private features are added, enforce access with
-Supabase Row Level Security policies and trusted server-side authorization.
+### 📊 Spreadsheet
+- Interactive grid with 10 columns and 15 rows.
+- Basic cell editing and formatting.
+- Copy and paste capabilities.
+- Export spreadsheet data as standard JSON.
+
+### 📽️ Presentations
+- *Experimental section.*
+- Currently serves as a placeholder for upcoming slide creation tools.
+
+### 👤 User Accounts
+- Optional user authentication powered by Supabase.
+- Email & password registration.
+- Login, logout, and email verification workflows.
+- Account management page.
+- **Note:** All editors can be used locally without creating an account.
+
+---
+
+## ⚠️ Current Limitations
+
+VeraOffice is an evolving project. Please note the following current limitations:
+
+- ❌ No centralized document management system.
+- ❌ No cross-device document synchronization.
+- ❌ No real-time multi-user collaboration.
+- ❌ No formula parsing or data charts in spreadsheets.
+- ❌ No Excel (`.xlsx`) import/export options.
+- ❌ Presentation editor is not yet functional.
+
+---
+
+## 🛠️ Technologies & Services
+
+- **Frontend:** HTML5, CSS3, Vanilla JavaScript
+- **Backend & Auth:** [Supabase](https://supabase.com/)
+- **Icons:** [Lucide Icons](https://lucide.dev/)
+- **Typography:** [Google Fonts](https://fonts.google.com/)
+- **Analytics:** [Vercel Web Analytics](https://vercel.com/analytics)
+
+---
+
+## 🚀 Getting Started
+
+### Run Locally
+
+Because VeraOffice is a static project, no build process is needed.
+
+1. **Clone the repository:**
+   ```bash
+   git clone https://github.com/MasterX185/VeraOffice.git
+   ```
+
+2. **Navigate into the project directory:**
+   ```bash
+   cd VeraOffice
+   ```
+
+3. **Start a local HTTP server:**
+   ```bash
+   python -m http.server 8000
+   ```
+
+4. **Open in your browser:**
+   Go to `http://localhost:8000` (or use any static web server of your choice).
+
+---
+
+## 🗄️ Supabase Configuration
+
+VeraOffice comes preconfigured with a default Supabase project setup, allowing you to test authentication out-of-the-box.
+
+### Option A: Use Preconfigured Database
+- Ready to go—no extra setup required.
+- Availability depends on the default project status.
+
+### Option B: Use Your Own Database
+
+1. Create a project on [Supabase](https://supabase.com/).
+2. Open `auth-config.js`.
+3. Replace the placeholder values with your project credentials:
+   ```javascript
+   const SUPABASE_URL = "YOUR_SUPABASE_PROJECT_URL";
+   const SUPABASE_ANON_KEY = "YOUR_SUPABASE_PUBLISHABLE_OR_ANON_KEY";
+   ```
+4. Set up authentication redirect URLs in your Supabase dashboard settings.
+
+### 🔒 Security Notes
+- **Never** expose your Supabase `service-role` key in frontend scripts.
+- Use only the **publishable key** or legacy **anon key** in `auth-config.js`.
+- Ensure appropriate Row Level Security (RLS) policies are active on your database.
+
+---
+
+## 📁 Project Structure
+
+```text
+VeraOffice/
+├── index.html
+├── about.html
+├── services.html
+├── contact.html
+├── credits.html
+├── login.html
+├── account.html
+├── auth-config.js
+├── auth.js
+├── style.css
+├── style-editor.css
+├── favicon.svg
+├── app/
+│   ├── app.html
+│   ├── text/
+│   │   ├── text.html
+│   │   └── text.js
+│   ├── sheets/
+│   │   ├── sheets.html
+│   │   └── sheets.js
+│   └── presentations/
+│       ├── presentations.html
+│       └── presentations.js
+└── LICENSE
+```
+
+---
+
+## 🌐 Deployment
+
+As a static frontend application, VeraOffice can easily be hosted on:
+
+- [GitHub Pages](https://pages.github.com/)
+- [Vercel](https://vercel.com/)
+- [Netlify](https://www.netlify.com/)
+- [Cloudflare Pages](https://pages.cloudflare.com/)
+
+> **Note:** Remember to update the *Site URL* and *Redirect URLs* in your Supabase authentication settings to match your production domain.
+
+---
+
+## 🤝 Contributing
+
+Contributions, bug reports, and feature requests are welcome!
+
+1. **Fork** the repository.
+2. Create a feature **branch** (`git checkout -b feature/NewFeature`).
+3. **Commit** your changes (`git commit -m 'Add NewFeature'`).
+4. **Push** to the branch (`git push origin feature/NewFeature`).
+5. Open a **Pull Request**.
+
+---
+
+## 📄 License
+
+Distributed under the MIT License. See `LICENSE` for more information.
