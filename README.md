@@ -68,7 +68,9 @@ VeraOffice is an evolving project. Please note the following current limitations
 
 ### Run Locally
 
-Because VeraOffice is a static project, no build process is needed.
+Because VeraOffice is a static project, no build process is needed. 
+
+Note: for all features to work, you need a safe HTTPS connection
 
 1. **Clone the repository:**
    ```bash
@@ -156,6 +158,7 @@ As a static frontend application, VeraOffice can easily be hosted on:
 - [Vercel](https://vercel.com/)
 - [Netlify](https://www.netlify.com/)
 - [Cloudflare Pages](https://pages.cloudflare.com/)
+- and more
 
 > **Note:** Remember to update the *Site URL* and *Redirect URLs* in your Supabase authentication settings to match your production domain.
 
@@ -171,6 +174,9 @@ Contributions, bug reports, and feature requests are welcome!
 4. **Push** to the branch (`git push origin feature/NewFeature`).
 5. Open a **Pull Request**.
 
+You can also create a fork in this repo from the *develop* branch and name it like this: *develop-GitHubUsername-YourFeature*
+
+Then, create a PR
 ---
 
 ## 📄 License
