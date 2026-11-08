@@ -118,6 +118,17 @@ VeraOffice comes preconfigured with a default Supabase project setup, allowing y
 
 ---
 
+## HOPEFULLY coming soon...
+- saving into the cloud with more editors (e.g. sheets)
+- deleting account
+- loading files
+- --saving files in cache (so you don't loose anything when the page reloads)
+- better design for sheets
+- better design for account page
+- new favicon
+
+---
+
 ## 📁 Project Structure
 
 ```text
