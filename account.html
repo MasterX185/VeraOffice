@@ -1,49 +1,62 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>VeraOffice - Your Account</title>
-    <link rel="stylesheet" href="style.css">
-    <link rel="icon" type="image/svg+xml" href="/favicon.svg">
-    <script src="account.js"></script>
-    <!-- Vercel Web Analytics -->
-    <script defer src="https://cdn.vercel-insights.com/v1/script.js"></script>
-    <!-- supabase integration -->
-    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
-    <script src="auth-config.js"></script>
-    <script src="auth.js" defer></script>
-    <!-- Google Fonts Poppins integration -->
-    <link rel="preconnect" href="https://fonts.googleapis.com" />
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-    <link
-      href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap"
-      rel="stylesheet"
-    />
-</head>
-<body class="app-body">
-    <header class="header-container">
-      <nav class="navbar">
-        <!-- Logo -->
-        <div class="nav-logo">
-          <a href="index.html">Vera<span class="logo-accent">Office</span></a>
-        </div>
 
-        <!-- Navigation Links -->
-        <ul class="nav-links">
-          <li><a href="index.html" class="active">Home</a></li>
-          <li><a href="about.html">About</a></li>
-          <li><a href="services.html">Services</a></li>
-          <li><a href="contact.html">Contact</a></li>
-          <li><a href="credits.html">Credits</a></li>
-          <li><a href="login.html" data-auth-link>Sign in (optional)</a></li>
-          <!-- Call to Action Button -->
-          <li><a href="../app/app.html" class="btn-cta">Open App</a></li>
-        </ul>
-      </nav>
-    </header>
-    
-    <h1>Your Account</h1>
-    <button id="logout-btn" class="card-button">Log out</button>
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>VeraOffice - Your Account</title>
+  <link rel="stylesheet" href="style.css">
+  <link rel="icon" type="image/svg+xml" href="/favicon.svg">
+  <!-- Vercel Web Analytics -->
+  <script defer src="https://cdn.vercel-insights.com/v1/script.js"></script>
+  <!-- supabase integration -->
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+  <script src="auth-config.js"></script>
+  <script src="auth.js" defer></script>
+  <script src="account.js" defer></script>
+  <!-- Google Fonts Poppins integration -->
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap" rel="stylesheet" />
+</head>
+
+<body class="app-body">
+  <header class="header-container">
+    <nav class="navbar">
+      <!-- Logo -->
+      <div class="nav-logo">
+        <a href="index.html">Vera<span class="logo-accent">Office</span></a>
+      </div>
+
+      <!-- Navigation Links -->
+      <ul class="nav-links">
+        <li><a href="index.html" class="active">Home</a></li>
+        <li><a href="about.html">About</a></li>
+        <li><a href="services.html">Services</a></li>
+        <li><a href="contact.html">Contact</a></li>
+        <li><a href="credits.html">Credits</a></li>
+        <li><a href="login.html" data-auth-link>Sign in (optional)</a></li>
+        <!-- Call to Action Button -->
+        <li><a href="../app/app.html" class="btn-cta">Open App</a></li>
+      </ul>
+    </nav>
+  </header>
+  <h1>Your Account</h1>
+  <button id="logout-btn" class="card-button">Log out</button>
+  <br>
+  <h2>Account Details</h2>
+  <div id="account-details" class="card">
+    <p><strong>Email:</strong> <span id="user-email">Loading...</span></p>
+  </div>
+  <br>
+  <h2>My Documents</h2>
+  <div id="documents-list" class="card">
+    <p>Loading documents...</p>
+  </div>
+  <br>
+
+
+
 </body>
+
 </html>
