@@ -17,6 +17,7 @@ document.addEventListener("DOMContentLoaded", () => {
   const clipboardStatus = document.getElementById("clipboard-status");
   const saveLocalButton = document.getElementById("save-local-btn-file");
   const saveCloudButton = document.getElementById("save-cloud-btn-file");
+  const documentTitleInput = document.getElementById("document-title-input");
   const documentId = new URLSearchParams(window.location.search).get("docId");
 
   const ROW_HEIGHT = 28;
@@ -97,6 +98,12 @@ document.addEventListener("DOMContentLoaded", () => {
       showClipboardStatus("Could not read the saved sheet data.");
       console.error("Invalid saved sheet data:", error);
     }
+  }
+
+  // Document Title
+  if (documentTitleInput) {
+    const title = spreadsheet?.querySelector("h1")?.textContent?.trim();
+    documentTitleInput.value = title || "Unnamed Document";
   }
 
   function updateButtonStates() {
@@ -347,6 +354,8 @@ document.addEventListener("DOMContentLoaded", () => {
       }
     });
   }
+
+  // local Save
   if (saveLocalButton) {
     saveLocalButton.addEventListener("click", () => {
       const blob = new Blob(
@@ -358,7 +367,7 @@ document.addEventListener("DOMContentLoaded", () => {
       const url = URL.createObjectURL(blob);
       const link = document.createElement("a");
       link.href = url;
-      link.download = "sheet-data.json";
+      link.download = documentTitleInput?.value?.trim() || "Unnamed Document.json";
       link.click();
       URL.revokeObjectURL(url);
       showClipboardStatus("Datei lokal gespeichert.");
@@ -388,7 +397,7 @@ document.addEventListener("DOMContentLoaded", () => {
         }
 
         const content = JSON.stringify(Object.fromEntries(values));
-        const title = "Unnamed Spreadsheet";
+        const title = documentTitleInput?.value?.trim() || "Unnamed Spreadsheet";
         const documentData = {
           user_id: user.id,
           title,
