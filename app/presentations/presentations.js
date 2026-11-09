@@ -9,6 +9,8 @@ document.addEventListener('DOMContentLoaded', () => {
   const startButton = document.getElementById('start-btn-text');
   const fileButton = document.getElementById('file-btn-text');
   const canvas = document.getElementById('canvas-sheets');
+  const documentTitleInput = document.getElementById("document-title-input");
+  const editor = canvas;
 
   // toolbar-start
   const toolbarStart = document.getElementById('start-text-toolbar');
@@ -25,6 +27,7 @@ document.addEventListener('DOMContentLoaded', () => {
   const toolbarFile = document.getElementById('file-text-toolbar');
   const saveCloudButton = document.getElementById('save-cloud-btn-file');
   const saveLocalButton = document.getElementById('save-local-btn-file');
+  const documentId = new URLSearchParams(window.location.search).get("docId");
 
   // general helpers
   function keepFocus() {
@@ -37,6 +40,62 @@ document.addEventListener('DOMContentLoaded', () => {
     if (clipboardStatus) {
       clipboardStatus.textContent = message;
     }
+  }
+
+  async function loadDocument() {
+    if (!documentId || !canvas) return;
+
+    const client = window.VeraOfficeAuth?.client;
+    if (!client) {
+      showClipboardStatus("Could not load document: Supabase is unavailable.");
+      return;
+    }
+
+    const {
+      data: { user },
+      error: userError,
+    } = await client.auth.getUser();
+    if (userError || !user) {
+      window.location.assign("../../login.html");
+      return;
+    }
+
+    const { data: savedDocument, error } = await client
+      .from("documents")
+      .select("id, title, content, document_type")
+      .eq("id", documentId)
+      .eq("user_id", user.id)
+      .single();
+
+    if (error) {
+      showClipboardStatus("Could not load document.");
+      console.error("Error loading document:", error.message);
+      return;
+    }
+
+    if (savedDocument.document_type && savedDocument.document_type !== "presentation") {
+      showClipboardStatus("This document belongs to another editor.");
+      return;
+    }
+
+    if (documentTitleInput) {
+      documentTitleInput.value = savedDocument.title || "Unnamed Presentation";
+    }
+
+    const parser = new DOMParser();
+    const parsed = parser.parseFromString(savedDocument.content || "", "text/html");
+    const imageSource = parsed.querySelector("img[data-presentation-canvas]")?.src;
+    const source = imageSource || savedDocument.content;
+    const image = new Image();
+    image.addEventListener("load", () => {
+      canvas.width = image.width;
+      canvas.height = image.height;
+      canvas.getContext("2d").drawImage(image, 0, 0);
+    });
+    image.addEventListener("error", () => {
+      showClipboardStatus("Could not read the saved presentation.");
+    });
+    image.src = source || "";
   }
 
   if (editor) {
@@ -58,6 +117,26 @@ document.addEventListener('DOMContentLoaded', () => {
     } else {
       italicBtn.classList.remove('active-tool');
     }
+  }
+
+  // Document Title Input
+  if (documentTitleInput) {
+    documentTitleInput.value ||= "Unnamed Presentation";
+  }
+
+  function createPresentationHtml() {
+    const image = canvas.toDataURL("image/png");
+    const title = documentTitleInput?.value?.trim() || "Unnamed Presentation";
+    return `<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>${title.replace(/[<>&"]/g, "")}</title>
+</head>
+<body>
+  <img data-presentation-canvas src="${image}" alt="Presentation canvas">
+</body>
+</html>`;
   }
 
   // Navigation / Tab Toggles
@@ -227,34 +306,22 @@ document.addEventListener('DOMContentLoaded', () => {
 
 //save locally
 
-  if (saveLocalButton && editor) {
+  if (saveLocalButton && canvas) {
     saveLocalButton.addEventListener('click', () => {
-      const documentHtml = `<!doctype html>
-<html lang="en">
-<head>
-  <meta charset="UTF-8">
-  <title>Document</title>
-</head>
-<body>
-  ${editor.innerHTML}
-</body>
-</html>`;
-
-      const file = new Blob([documentHtml], { type: 'text/html' });
-      const downloadUrl = URL.createObjectURL(file);
       const link = document.createElement('a');
 
-      link.href = downloadUrl;
-      link.download = 'document.html';
+      const file = new Blob([createPresentationHtml()], { type: "text/html" });
+      link.href = URL.createObjectURL(file);
+      link.download = `${documentTitleInput?.value?.trim() || "Unnamed Presentation"}.html`;
       link.click();
+      URL.revokeObjectURL(link.href);
 
-      URL.revokeObjectURL(downloadUrl);
-      showClipboardStatus('downloaded locally as document.html');
+      showClipboardStatus('downloaded locally as presentation.html');
     });
   }
 
   // Supabase Cloud Save
-  if (saveCloudButton && editor) {
+  if (saveCloudButton && canvas) {
     saveCloudButton.addEventListener('click', async () => {
       try {
         // Retrieve the client from where auth.js stored it
@@ -273,24 +340,36 @@ document.addEventListener('DOMContentLoaded', () => {
           return;
         }
 
-        // 2. Extract content and title from the editor
-        const content = editor.innerHTML;
-        const titleElement = editor.querySelector('h1');
-        const title = titleElement ? titleElement.textContent : 'Unnamed Document';
+        const content = createPresentationHtml();
+        const documentData = {
+          user_id: user.id,
+          title: documentTitleInput?.value?.trim() || "Unnamed Presentation",
+          content,
+          document_type: "presentation",
+          updated_at: new Date().toISOString(),
+        };
 
-        // 3. Insert the document into the database
-        const { error } = await client
-          .from('documents')
-          .insert([
-            {
-              user_id: user.id,
-              title: title,
-              content: content,
-              updated_at: new Date()
-            }
-          ]);
+        let result;
+        if (documentId) {
+          result = await client
+            .from("documents")
+            .update(documentData)
+            .eq("id", documentId)
+            .eq("user_id", user.id);
+        } else {
+          result = await client
+            .from("documents")
+            .insert(documentData)
+            .select("id")
+            .single();
+        }
 
-        if (error) throw error;
+        if (result.error) throw result.error;
+        if (!documentId && result.data?.id) {
+          const url = new URL(window.location.href);
+          url.searchParams.set("docId", result.data.id);
+          window.history.replaceState({}, "", url);
+        }
 
         showClipboardStatus('Successfully saved in the Supabase cloud!');
         console.log('Document successfully saved in Supabase.');
@@ -300,12 +379,11 @@ document.addEventListener('DOMContentLoaded', () => {
       }
     });
   }
+  canvas.width = canvas.clientWidth;
+  canvas.height = canvas.clientHeight;
+
+  const ctx = canvas.getContext("2d");
+  ctx.fillStyle = "#007bff";
+  ctx.fillRect(0, 0, canvas.width, canvas.height);
+  loadDocument();
 });
-
-//canvas
-canvas.width = canvas.clientWidth;
-canvas.height = canvas.clientHeight;
-
-const ctx = canvas.getContext('2d');
-ctx.fillStyle = '#007bff';
-ctx.fillRect(0, 0, canvas.width, canvas.height);

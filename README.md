@@ -115,14 +115,14 @@ VeraOffice comes preconfigured with a default Supabase project setup, allowing y
 - **Never** expose your Supabase `service-role` key in frontend scripts.
 - Use only the **publishable key** or legacy **anon key** in `auth-config.js`.
 - Ensure appropriate Row Level Security (RLS) policies are active on your database.
+- I can currently see EVERY saved file in the preconfigured SUPABASE (I will change that later if possible)
 
 ---
 
 ## HOPEFULLY coming soon...
-- saving into the cloud with more editors (e.g. sheets)
+- saving into the cloud with more editors (e.g. presentations)
 - deleting account
-- loading files
-- --saving files in cache (so you don't loose anything when the page reloads)
+- saving files in cache (so you don't loose anything when the page reloads)
 - better design for sheets
 - better design for account page
 - new favicon

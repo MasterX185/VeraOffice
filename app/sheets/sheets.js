@@ -17,6 +17,8 @@ document.addEventListener("DOMContentLoaded", () => {
   const clipboardStatus = document.getElementById("clipboard-status");
   const saveLocalButton = document.getElementById("save-local-btn-file");
   const saveCloudButton = document.getElementById("save-cloud-btn-file");
+  const documentTitleInput = document.getElementById("document-title-input");
+  const documentId = new URLSearchParams(window.location.search).get("docId");
 
   const ROW_HEIGHT = 28;
   const COLUMN_WIDTH = 120;
@@ -48,6 +50,60 @@ document.addEventListener("DOMContentLoaded", () => {
 
   function showClipboardStatus(message) {
     if (clipboardStatus) clipboardStatus.textContent = message;
+  }
+
+  async function loadDocument() {
+    if (!documentId) return;
+
+    const client = window.VeraOfficeAuth?.client;
+    if (!client) {
+      showClipboardStatus("Could not load document: Supabase is unavailable.");
+      return;
+    }
+
+    const {
+      data: { user },
+      error: userError,
+    } = await client.auth.getUser();
+    if (userError || !user) {
+      window.location.assign("../../login.html");
+      return;
+    }
+
+    const { data: document, error } = await client
+      .from("documents")
+      .select("id, content, document_type")
+      .eq("id", documentId)
+      .eq("user_id", user.id)
+      .single();
+
+    if (error) {
+      showClipboardStatus("Could not load document.");
+      console.error("Error loading document:", error.message);
+      return;
+    }
+
+    if (document.document_type && document.document_type !== "sheet") {
+      showClipboardStatus("This document belongs to another editor.");
+      return;
+    }
+
+    try {
+      const savedValues = JSON.parse(document.content || "{}");
+      Object.entries(savedValues).forEach(([id, value]) => {
+        if (typeof value === "string") values.set(id, value);
+      });
+      renderVisibleCells();
+    } catch (error) {
+      showClipboardStatus("Could not read the saved sheet data.");
+      console.error("Invalid saved sheet data:", error);
+    }
+  }
+
+  // Document Title
+  if (documentTitleInput) {
+    const title = spreadsheet?.querySelector("h1")?.textContent?.trim();
+    documentTitleInput.value = title || "Unnamed Document";
   }
 
   function updateButtonStates() {
@@ -298,6 +354,8 @@ document.addEventListener("DOMContentLoaded", () => {
       }
     });
   }
+
+  // local Save
   if (saveLocalButton) {
     saveLocalButton.addEventListener("click", () => {
       const blob = new Blob(
@@ -309,18 +367,77 @@ document.addEventListener("DOMContentLoaded", () => {
       const url = URL.createObjectURL(blob);
       const link = document.createElement("a");
       link.href = url;
-      link.download = "sheet-data.json";
+      link.download = documentTitleInput?.value?.trim() || "Unnamed Document.json";
       link.click();
       URL.revokeObjectURL(url);
       showClipboardStatus("Datei lokal gespeichert.");
     });
   }
+
+  // Supabase Cloud Save
   if (saveCloudButton) {
-    saveCloudButton.addEventListener("click", () => {
-      showClipboardStatus("Cloud-Speichern für Sheets noch nicht aktiviert.");
+    saveCloudButton.addEventListener("click", async () => {
+      try {
+        // Retrieve the client from where auth.js stored it
+        const client = window.VeraOfficeAuth?.client || window.supabase;
+
+        if (!client || typeof client.from !== "function") {
+          throw new Error(
+            "Supabase client is not initialized or auth.js is missing.",
+          );
+        }
+
+        // 1. Check for the authenticated user
+        const { data: { user }, error: userError } = await client.auth.getUser();
+
+        if (userError || !user) {
+          alert("You are not signed in. Please log in first using the sign-in button.");
+          console.warn("Auth error or no user found:", userError);
+          return;
+        }
+
+        const content = JSON.stringify(Object.fromEntries(values));
+        const title = documentTitleInput?.value?.trim() || "Unnamed Spreadsheet";
+        const documentData = {
+          user_id: user.id,
+          title,
+          content,
+          document_type: "sheet",
+          updated_at: new Date().toISOString(),
+        };
+
+        let result;
+        if (documentId) {
+          result = await client
+            .from("documents")
+            .update(documentData)
+            .eq("id", documentId)
+            .eq("user_id", user.id);
+        } else {
+          result = await client
+            .from("documents")
+            .insert(documentData)
+            .select("id")
+            .single();
+        }
+
+        if (result.error) throw result.error;
+        if (!documentId && result.data?.id) {
+          const url = new URL(window.location.href);
+          url.searchParams.set("docId", result.data.id);
+          window.history.replaceState({}, "", url);
+        }
+
+        showClipboardStatus("Successfully saved in the Supabase cloud!");
+        console.log("Document successfully saved in Supabase.");
+      } catch (err) {
+        showClipboardStatus("Cloud save failed! Check the console for details.");
+        console.error("Error while saving to Supabase:", err);
+      }
     });
   }
 
   updateCanvasSize();
   renderVisibleCells();
+  loadDocument();
 });
