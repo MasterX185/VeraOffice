@@ -315,9 +315,53 @@ document.addEventListener("DOMContentLoaded", () => {
       showClipboardStatus("Datei lokal gespeichert.");
     });
   }
+
+  // Supabase Cloud Save
   if (saveCloudButton) {
-    saveCloudButton.addEventListener("click", () => {
-      showClipboardStatus("Cloud-Speichern für Sheets noch nicht aktiviert.");
+    saveCloudButton.addEventListener("click", async () => {
+      try {
+        // Retrieve the client from where auth.js stored it
+        const client = window.VeraOfficeAuth?.client || window.supabase;
+
+        if (!client || typeof client.from !== "function") {
+          throw new Error(
+            "Supabase client is not initialized or auth.js is missing.",
+          );
+        }
+
+        // 1. Check for the authenticated user
+        const { data: { user }, error: userError } = await client.auth.getUser();
+
+        if (userError || !user) {
+          alert("You are not signed in. Please log in first using the sign-in button.");
+          console.warn("Auth error or no user found:", userError);
+          return;
+        }
+
+        // 2. Store the sheet data, not the virtualized DOM.
+        const content = JSON.stringify(Object.fromEntries(values));
+        const title = "Unnamed Spreadsheet";
+
+        // 3. Insert the document into the database
+        const { error } = await client
+          .from("documents")
+          .insert([
+            {
+              user_id: user.id,
+              title: title,
+              content: content,
+              updated_at: new Date().toISOString(),
+            },
+          ]);
+
+        if (error) throw error;
+
+        showClipboardStatus("Successfully saved in the Supabase cloud!");
+        console.log("Document successfully saved in Supabase.");
+      } catch (err) {
+        showClipboardStatus("Cloud save failed! Check the console for details.");
+        console.error("Error while saving to Supabase:", err);
+      }
     });
   }
 
