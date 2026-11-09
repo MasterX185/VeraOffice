@@ -9,7 +9,8 @@ document.addEventListener('DOMContentLoaded', () => {
   const startButton = document.getElementById('start-btn-text');
   const fileButton = document.getElementById('file-btn-text');
   const canvas = document.getElementById('canvas-sheets');
-  const editor = null;
+  const documentTitleInput = document.getElementById("document-title-input");
+  const editor = canvas;
 
   // toolbar-start
   const toolbarStart = document.getElementById('start-text-toolbar');
@@ -59,9 +60,9 @@ document.addEventListener('DOMContentLoaded', () => {
       return;
     }
 
-    const { data: document, error } = await client
+    const { data: savedDocument, error } = await client
       .from("documents")
-      .select("id, content, document_type")
+      .select("id, title, content, document_type")
       .eq("id", documentId)
       .eq("user_id", user.id)
       .single();
@@ -72,11 +73,19 @@ document.addEventListener('DOMContentLoaded', () => {
       return;
     }
 
-    if (document.document_type && document.document_type !== "presentation") {
+    if (savedDocument.document_type && savedDocument.document_type !== "presentation") {
       showClipboardStatus("This document belongs to another editor.");
       return;
     }
 
+    if (documentTitleInput) {
+      documentTitleInput.value = savedDocument.title || "Unnamed Presentation";
+    }
+
+    const parser = new DOMParser();
+    const parsed = parser.parseFromString(savedDocument.content || "", "text/html");
+    const imageSource = parsed.querySelector("img[data-presentation-canvas]")?.src;
+    const source = imageSource || savedDocument.content;
     const image = new Image();
     image.addEventListener("load", () => {
       canvas.width = image.width;
@@ -86,7 +95,7 @@ document.addEventListener('DOMContentLoaded', () => {
     image.addEventListener("error", () => {
       showClipboardStatus("Could not read the saved presentation.");
     });
-    image.src = document.content || "";
+    image.src = source || "";
   }
 
   if (editor) {
@@ -108,6 +117,26 @@ document.addEventListener('DOMContentLoaded', () => {
     } else {
       italicBtn.classList.remove('active-tool');
     }
+  }
+
+  // Document Title Input
+  if (documentTitleInput) {
+    documentTitleInput.value ||= "Unnamed Presentation";
+  }
+
+  function createPresentationHtml() {
+    const image = canvas.toDataURL("image/png");
+    const title = documentTitleInput?.value?.trim() || "Unnamed Presentation";
+    return `<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>${title.replace(/[<>&"]/g, "")}</title>
+</head>
+<body>
+  <img data-presentation-canvas src="${image}" alt="Presentation canvas">
+</body>
+</html>`;
   }
 
   // Navigation / Tab Toggles
@@ -281,11 +310,13 @@ document.addEventListener('DOMContentLoaded', () => {
     saveLocalButton.addEventListener('click', () => {
       const link = document.createElement('a');
 
-      link.href = canvas.toDataURL("image/png");
-      link.download = 'presentation.png';
+      const file = new Blob([createPresentationHtml()], { type: "text/html" });
+      link.href = URL.createObjectURL(file);
+      link.download = `${documentTitleInput?.value?.trim() || "Unnamed Presentation"}.html`;
       link.click();
+      URL.revokeObjectURL(link.href);
 
-      showClipboardStatus('downloaded locally as presentation.png');
+      showClipboardStatus('downloaded locally as presentation.html');
     });
   }
 
@@ -309,10 +340,10 @@ document.addEventListener('DOMContentLoaded', () => {
           return;
         }
 
-        const content = canvas.toDataURL("image/png");
+        const content = createPresentationHtml();
         const documentData = {
           user_id: user.id,
-          title: "Unnamed Presentation",
+          title: documentTitleInput?.value?.trim() || "Unnamed Presentation",
           content,
           document_type: "presentation",
           updated_at: new Date().toISOString(),
