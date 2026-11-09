@@ -368,9 +368,106 @@ canvas {
     background-color: #ffffff;
     border-color: var(--border-color);
   }
-
   canvas {
     border-color: var(--editor-border);
     background-color: #ffffff;
+  }
+}
+
+@media (max-width: 768px) {
+  main {
+    min-height: calc(100vh - 56px);
+    height: auto;
+    align-items: flex-start;
+  }
+
+  .header-container {
+    position: sticky;
+  }
+
+  .navbar {
+    padding: 8px 10px;
+    overflow-x: auto;
+  }
+
+  .nav-links {
+    flex-wrap: nowrap;
+    min-width: max-content;
+    gap: 2px;
+  }
+
+  .nav-links a,
+  .nav-links input {
+    min-height: 36px;
+    padding: 7px 9px;
+    font-size: 13px;
+  }
+
+  .nav-links input {
+    width: 140px;
+  }
+
+  .toolbar {
+    flex-wrap: wrap;
+    gap: 6px;
+    padding: 8px 10px;
+  }
+
+  .toolbar button {
+    min-width: 40px;
+    min-height: 38px;
+    padding: 7px 9px;
+  }
+
+  .toolbar-separator {
+    display: none;
+  }
+
+  #clipboard-status {
+    flex: 1 1 100%;
+    min-height: 18px;
+    margin: 0;
+  }
+
+  .size-combobox input {
+    width: 76px;
+    min-height: 38px;
+  }
+
+  .editor-container {
+    width: calc(100% - 20px);
+    min-height: calc(100vh - 150px);
+    margin: 12px auto;
+    padding: 28px 18px;
+    border-radius: 6px;
+  }
+
+  canvas {
+    width: calc(100% - 20px);
+    height: auto;
+    min-height: 240px;
+    object-fit: contain;
+  }
+
+  .spreadsheet-container {
+    width: calc(100% - 20px);
+    height: calc(100vh - 150px);
+    margin: 10px;
+  }
+}
+
+@media (max-width: 420px) {
+  .nav-links a,
+  .nav-links input {
+    font-size: 12px;
+    padding-inline: 7px;
+  }
+
+  .nav-links input {
+    width: 120px;
+  }
+
+  .toolbar button {
+    padding-inline: 7px;
   }
 }
