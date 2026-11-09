@@ -9,6 +9,7 @@ document.addEventListener('DOMContentLoaded', () => {
   const startButton = document.getElementById('start-btn-text');
   const editor = document.querySelector('.editor-container');
   const fileButton = document.getElementById('file-btn-text');
+  const documentTitleInput = document.getElementById('document-title-input');
 
   // toolbar-start
   const toolbarStart = document.getElementById('start-text-toolbar');
@@ -77,6 +78,9 @@ document.addEventListener('DOMContentLoaded', () => {
     }
 
     editor.innerHTML = document.content || "";
+    if (documentTitleInput) {
+      documentTitleInput.value = document.title || "Unnamed Document";
+    }
   }
 
   if (editor) {
@@ -98,6 +102,12 @@ document.addEventListener('DOMContentLoaded', () => {
     } else {
       italicBtn.classList.remove('active-tool');
     }
+  }
+
+  // Document Title
+  if (documentTitleInput) {
+    const title = editor?.querySelector("h1")?.textContent?.trim();
+    documentTitleInput.value = title || "Unnamed Document";
   }
 
   // Navigation / Tab Toggles
@@ -211,6 +221,12 @@ document.addEventListener('DOMContentLoaded', () => {
   }
 
   // Formatting Tools
+  [boldBtn, italicBtn, undoBtn, redoBtn, insertBtn, copyBtn].forEach((button) => {
+    button?.addEventListener("mousedown", (event) => {
+      event.preventDefault();
+    });
+  });
+
   if (boldBtn) {
     boldBtn.addEventListener('click', () => {
       document.execCommand('bold', false, null);
@@ -285,11 +301,11 @@ document.addEventListener('DOMContentLoaded', () => {
       const link = document.createElement('a');
 
       link.href = downloadUrl;
-      link.download = 'document.html';
+      link.download = documentTitleInput?.value?.trim() || 'document.html';
       link.click();
 
       URL.revokeObjectURL(downloadUrl);
-      showClipboardStatus('downloaded locally as document.html');
+      showClipboardStatus('downloaded locally as ' + (documentTitleInput?.value?.trim() || 'document') + '.html');
     });
   }
 
@@ -314,8 +330,7 @@ document.addEventListener('DOMContentLoaded', () => {
         }
 
         const content = editor.innerHTML;
-        const titleElement = editor.querySelector("h1");
-        const title = titleElement?.textContent?.trim() || "Unnamed Document";
+        const title = documentTitleInput?.value?.trim() || "Unnamed Document";
         const documentData = {
           user_id: user.id,
           title,
@@ -353,7 +368,8 @@ document.addEventListener('DOMContentLoaded', () => {
         console.error('Error while saving to Supabase:', err);
       }
 
-      loadDocument();
     });
   }
+
+  loadDocument();
 });
