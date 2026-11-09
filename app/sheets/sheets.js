@@ -17,6 +17,7 @@ document.addEventListener("DOMContentLoaded", () => {
   const clipboardStatus = document.getElementById("clipboard-status");
   const saveLocalButton = document.getElementById("save-local-btn-file");
   const saveCloudButton = document.getElementById("save-cloud-btn-file");
+  const documentId = new URLSearchParams(window.location.search).get("docId");
 
   const ROW_HEIGHT = 28;
   const COLUMN_WIDTH = 120;
@@ -48,6 +49,54 @@ document.addEventListener("DOMContentLoaded", () => {
 
   function showClipboardStatus(message) {
     if (clipboardStatus) clipboardStatus.textContent = message;
+  }
+
+  async function loadDocument() {
+    if (!documentId) return;
+
+    const client = window.VeraOfficeAuth?.client;
+    if (!client) {
+      showClipboardStatus("Could not load document: Supabase is unavailable.");
+      return;
+    }
+
+    const {
+      data: { user },
+      error: userError,
+    } = await client.auth.getUser();
+    if (userError || !user) {
+      window.location.assign("../../login.html");
+      return;
+    }
+
+    const { data: document, error } = await client
+      .from("documents")
+      .select("id, content, document_type")
+      .eq("id", documentId)
+      .eq("user_id", user.id)
+      .single();
+
+    if (error) {
+      showClipboardStatus("Could not load document.");
+      console.error("Error loading document:", error.message);
+      return;
+    }
+
+    if (document.document_type && document.document_type !== "sheet") {
+      showClipboardStatus("This document belongs to another editor.");
+      return;
+    }
+
+    try {
+      const savedValues = JSON.parse(document.content || "{}");
+      Object.entries(savedValues).forEach(([id, value]) => {
+        if (typeof value === "string") values.set(id, value);
+      });
+      renderVisibleCells();
+    } catch (error) {
+      showClipboardStatus("Could not read the saved sheet data.");
+      console.error("Invalid saved sheet data:", error);
+    }
   }
 
   function updateButtonStates() {
@@ -338,23 +387,37 @@ document.addEventListener("DOMContentLoaded", () => {
           return;
         }
 
-        // 2. Store the sheet data, not the virtualized DOM.
         const content = JSON.stringify(Object.fromEntries(values));
         const title = "Unnamed Spreadsheet";
+        const documentData = {
+          user_id: user.id,
+          title,
+          content,
+          document_type: "sheet",
+          updated_at: new Date().toISOString(),
+        };
 
-        // 3. Insert the document into the database
-        const { error } = await client
-          .from("documents")
-          .insert([
-            {
-              user_id: user.id,
-              title: title,
-              content: content,
-              updated_at: new Date().toISOString(),
-            },
-          ]);
+        let result;
+        if (documentId) {
+          result = await client
+            .from("documents")
+            .update(documentData)
+            .eq("id", documentId)
+            .eq("user_id", user.id);
+        } else {
+          result = await client
+            .from("documents")
+            .insert(documentData)
+            .select("id")
+            .single();
+        }
 
-        if (error) throw error;
+        if (result.error) throw result.error;
+        if (!documentId && result.data?.id) {
+          const url = new URL(window.location.href);
+          url.searchParams.set("docId", result.data.id);
+          window.history.replaceState({}, "", url);
+        }
 
         showClipboardStatus("Successfully saved in the Supabase cloud!");
         console.log("Document successfully saved in Supabase.");
@@ -367,4 +430,5 @@ document.addEventListener("DOMContentLoaded", () => {
 
   updateCanvasSize();
   renderVisibleCells();
+  loadDocument();
 });

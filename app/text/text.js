@@ -25,6 +25,7 @@ document.addEventListener('DOMContentLoaded', () => {
   const toolbarFile = document.getElementById('file-text-toolbar');
   const saveCloudButton = document.getElementById('save-cloud-btn-file');
   const saveLocalButton = document.getElementById('save-local-btn-file');
+  const documentId = new URLSearchParams(window.location.search).get("docId");
 
   // general helpers
   function keepFocus() {
@@ -37,6 +38,45 @@ document.addEventListener('DOMContentLoaded', () => {
     if (clipboardStatus) {
       clipboardStatus.textContent = message;
     }
+  }
+
+  async function loadDocument() {
+    if (!documentId || !editor) return;
+
+    const client = window.VeraOfficeAuth?.client;
+    if (!client) {
+      showClipboardStatus("Could not load document: Supabase is unavailable.");
+      return;
+    }
+
+    const {
+      data: { user },
+      error: userError,
+    } = await client.auth.getUser();
+    if (userError || !user) {
+      window.location.assign("../../login.html");
+      return;
+    }
+
+    const { data: document, error } = await client
+      .from("documents")
+      .select("id, title, content, document_type")
+      .eq("id", documentId)
+      .eq("user_id", user.id)
+      .single();
+
+    if (error) {
+      showClipboardStatus("Could not load document.");
+      console.error("Error loading document:", error.message);
+      return;
+    }
+
+    if (document.document_type && document.document_type !== "text") {
+      showClipboardStatus("This document belongs to another editor.");
+      return;
+    }
+
+    editor.innerHTML = document.content || "";
   }
 
   if (editor) {
@@ -273,24 +313,38 @@ document.addEventListener('DOMContentLoaded', () => {
           return;
         }
 
-        // 2. Extract content and title from the editor
         const content = editor.innerHTML;
-        const titleElement = editor.querySelector('h1');
-        const title = titleElement ? titleElement.textContent : 'Unnamed Document';
+        const titleElement = editor.querySelector("h1");
+        const title = titleElement?.textContent?.trim() || "Unnamed Document";
+        const documentData = {
+          user_id: user.id,
+          title,
+          content,
+          document_type: "text",
+          updated_at: new Date().toISOString(),
+        };
 
-        // 3. Insert the document into the database
-        const { error } = await client
-          .from('documents')
-          .insert([
-            {
-              user_id: user.id,
-              title: title,
-              content: content,
-              updated_at: new Date()
-            }
-          ]);
+        let result;
+        if (documentId) {
+          result = await client
+            .from("documents")
+            .update(documentData)
+            .eq("id", documentId)
+            .eq("user_id", user.id);
+        } else {
+          result = await client
+            .from("documents")
+            .insert(documentData)
+            .select("id")
+            .single();
+        }
 
-        if (error) throw error;
+        if (result.error) throw result.error;
+        if (!documentId && result.data?.id) {
+          const url = new URL(window.location.href);
+          url.searchParams.set("docId", result.data.id);
+          window.history.replaceState({}, "", url);
+        }
 
         showClipboardStatus('Successfully saved in the Supabase cloud!');
         console.log('Document successfully saved in Supabase.');
@@ -298,6 +352,8 @@ document.addEventListener('DOMContentLoaded', () => {
         showClipboardStatus('Cloud save failed! Check the console for details.');
         console.error('Error while saving to Supabase:', err);
       }
+
+      loadDocument();
     });
   }
 });
