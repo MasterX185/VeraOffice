@@ -798,25 +798,29 @@
     .navbar {
         flex-wrap: wrap;
         gap: 12px;
-        padding: 12px 16px;
+        padding: 12px 14px;
     }
 
     .nav-links {
         flex-wrap: wrap;
         justify-content: center;
-        gap: 12px;
+        gap: 6px;
         width: 100%;
     }
 
     .nav-links a {
-        font-size: 14px;
+        display: inline-flex;
+        align-items: center;
+        min-height: 36px;
+        padding: 7px 9px;
+        font-size: 13px;
     }
 
     .hero-title {
-        font-size: 38px;
+        font-size: clamp(2.1rem, 11vw, 3rem);
     }
     .hero-subtitle {
-        font-size: 18px;
+        font-size: clamp(1rem, 4.5vw, 1.15rem);
     }
 
     .login-layout {
@@ -851,6 +855,257 @@
         justify-content: center;
     }
 }
+
+    @media screen and (max-width: 768px) {
+        html,
+        body {
+            width: 100%;
+            max-width: 100%;
+            overflow-x: hidden;
+        }
+
+        .header-container {
+            overflow: hidden;
+        }
+
+        .navbar {
+            display: block !important;
+            width: 100% !important;
+            max-width: none !important;
+            padding: 10px 12px !important;
+        }
+
+        .nav-logo {
+            display: block !important;
+            margin-bottom: 8px;
+            text-align: center;
+        }
+
+        .nav-links {
+            display: flex !important;
+            width: 100% !important;
+            max-width: 100% !important;
+            flex-wrap: wrap !important;
+            justify-content: center;
+            gap: 4px 6px !important;
+            overflow: hidden;
+        }
+
+        .nav-links a {
+            display: inline-flex;
+            min-height: 34px;
+            padding: 6px 8px;
+            font-size: 13px;
+            white-space: nowrap;
+        }
+
+        .nav-account {
+            flex: 1 1 100%;
+            justify-content: center;
+            flex-wrap: wrap;
+        }
+
+        .hero-section {
+            width: 100% !important;
+            min-width: 0;
+            gap: 36px !important;
+            padding: 210px 12px 48px !important;
+        }
+
+        .cards-container {
+            display: flex !important;
+            width: 100% !important;
+            flex-direction: column !important;
+            align-items: center;
+            gap: 16px;
+        }
+
+        .text-card {
+            width: min(100%, 340px) !important;
+            max-width: calc(100vw - 24px) !important;
+            padding: 26px 18px;
+        }
+    }
+
+    @media screen and (max-width: 420px) {
+        .hero-section {
+            padding-top: 205px !important;
+        }
+    }
+
+    @media screen and (max-width: 768px) {
+        .app-body {
+            width: 100%;
+            max-width: 100%;
+            overflow-x: hidden;
+            padding-top: 0;
+        }
+
+        .app-body .header-container {
+            position: fixed;
+        }
+
+        .app-body .app-layout {
+            display: block;
+            width: 100%;
+            min-height: 100vh;
+            padding-top: 210px;
+        }
+
+        .app-body .side-navigation {
+            width: 100%;
+            padding: 10px 12px;
+            border-right: 0;
+            border-bottom: 1px solid #26344a;
+        }
+
+        .app-body .sidebar-title {
+            display: none;
+        }
+
+        .app-body .side-links {
+            display: flex;
+            width: 100%;
+            gap: 6px;
+            overflow-x: auto;
+            padding-bottom: 2px;
+        }
+
+        .app-body .side-item {
+            flex: 1 0 auto;
+            margin: 0;
+        }
+
+        .app-body .side-item a {
+            padding: 10px 14px;
+            text-align: center;
+            white-space: nowrap;
+        }
+
+        .app-body .app-content {
+            width: 100%;
+            max-width: none;
+            padding: 28px 14px 48px;
+        }
+
+        .app-body .content-header {
+            margin-bottom: 28px;
+            text-align: center;
+        }
+
+        .app-body .app-title {
+            font-size: clamp(1.8rem, 8vw, 2.25rem);
+            line-height: 1.15;
+        }
+
+        .app-body .app-subtitle {
+            font-size: 0.95rem;
+            line-height: 1.5;
+        }
+
+        .app-body .dashboard-grid {
+            grid-template-columns: minmax(0, 1fr);
+            gap: 16px;
+        }
+
+        .app-body .app-card {
+            width: 100%;
+            min-width: 0;
+            padding: 22px;
+        }
+    }
+
+    /* Final mobile layout overrides */
+    @media screen and (max-width: 768px) {
+        html,
+        body {
+            width: 100%;
+            max-width: 100%;
+            overflow-x: hidden;
+        }
+
+        .header-container {
+            overflow: hidden;
+        }
+
+        .navbar {
+            display: block;
+            width: 100%;
+            max-width: none;
+            padding: 10px 12px;
+        }
+
+        .nav-logo {
+            display: block;
+            margin-bottom: 8px;
+            text-align: center;
+        }
+
+        .nav-links {
+            display: flex;
+            width: 100%;
+            max-width: 100%;
+            flex-wrap: wrap;
+            justify-content: center;
+            gap: 4px 6px;
+            overflow: hidden;
+        }
+
+        .nav-links > li {
+            max-width: 100%;
+        }
+
+        .nav-links a {
+            display: inline-flex;
+            align-items: center;
+            min-height: 34px;
+            padding: 6px 8px;
+            font-size: 13px;
+            white-space: nowrap;
+        }
+
+        .nav-links .btn-cta {
+            padding: 7px 10px;
+        }
+
+        .nav-account {
+            flex: 1 1 100%;
+            justify-content: center;
+            flex-wrap: wrap;
+        }
+
+        .hero-section {
+            width: 100%;
+            min-width: 0;
+            gap: 36px;
+            padding: 150px 12px 48px;
+        }
+
+        .cards-container {
+            display: flex;
+            width: 100%;
+            flex-direction: column;
+            align-items: center;
+            gap: 16px;
+        }
+
+        .text-card {
+            width: min(100%, 340px);
+            max-width: calc(100vw - 24px);
+            padding: 26px 18px;
+        }
+    }
+
+    @media screen and (max-width: 420px) {
+        .nav-links a {
+            padding-inline: 6px;
+            font-size: 12px;
+        }
+
+        .hero-title {
+            font-size: 2rem;
+        }
+    }
 
     @media (prefers-color-scheme: dark) {
         :root {
@@ -1856,6 +2111,195 @@
     .nav-account {
         width: 100%;
         justify-content: center;
+        flex-wrap: wrap;
+        gap: 8px;
+    }
+
+    .document-item {
+        flex-wrap: wrap;
+        gap: 8px;
+    }
+
+    .document-item > span {
+        min-width: 0;
+        flex: 1 1 100%;
+        overflow-wrap: anywhere;
+    }
+
+    .document-item .open-button {
+        margin-left: 0;
+    }
+
+    .document-item .open-button,
+    .document-item .delete-button {
+        flex: 1 1 0;
+        min-height: 40px;
+        margin-left: 0;
+    }
+
+    .card,
+    .text-card {
+        width: min(100%, calc(100vw - 28px));
+        padding: 20px 16px;
+    }
+
+    .hero-section {
+        padding: 44px 14px 56px;
     }
 }
+
+@media (max-width: 420px) {
+    .nav-links a {
+        font-size: 12px;
+        padding-inline: 7px;
+    }
+
+    .hero-title {
+        font-size: 2rem;
+    }
+}
+
+@media (max-width: 768px) {
+    html,
+    body {
+        max-width: 100%;
+        overflow-x: hidden;
+    }
+
+    .header-container {
+        overflow: hidden;
+    }
+
+    .navbar {
+        display: block;
+        width: 100%;
+        max-width: none;
+        padding: 10px 12px;
+    }
+
+    .nav-logo {
+        display: block;
+        margin-bottom: 8px;
+        text-align: center;
+    }
+
+    .nav-links {
+        display: flex;
+        width: 100%;
+        max-width: 100%;
+        flex-wrap: wrap;
+        justify-content: center;
+        gap: 4px 6px;
+        overflow: hidden;
+    }
+
+    .nav-links > li {
+        max-width: 100%;
+    }
+
+    .nav-links a {
+        white-space: nowrap;
+    }
+
+    .nav-account {
+        flex: 1 1 100%;
+        justify-content: center;
+    }
+
+    .hero-section {
+        width: 100%;
+        min-width: 0;
+        gap: 40px;
+        padding: 96px 12px 48px;
+    }
+
+    .cards-container {
+        width: 100%;
+        flex-direction: column;
+        align-items: center;
+        gap: 16px;
+    }
+
+    .text-card {
+        width: min(100%, 340px);
+        padding: 26px 18px;
+    }
+}
+}
+
+@media screen and (max-width: 768px) {
+    html,
+    body {
+        width: 100%;
+        max-width: 100%;
+        overflow-x: hidden;
+    }
+
+    .header-container {
+        overflow: hidden;
+    }
+
+    .navbar {
+        display: block !important;
+        width: 100% !important;
+        max-width: none !important;
+        padding: 10px 12px !important;
+    }
+
+    .nav-logo {
+        display: block !important;
+        margin-bottom: 8px;
+        text-align: center;
+    }
+
+    .nav-links {
+        display: flex !important;
+        width: 100% !important;
+        max-width: 100% !important;
+        flex-wrap: wrap !important;
+        justify-content: center;
+        gap: 4px 6px !important;
+        overflow: hidden;
+    }
+
+    .nav-links a {
+        display: inline-flex;
+        min-height: 34px;
+        padding: 6px 8px;
+        font-size: 13px;
+        white-space: nowrap;
+    }
+
+    .nav-account {
+        flex: 1 1 100%;
+        justify-content: center;
+        flex-wrap: wrap;
+    }
+
+    .hero-section {
+        width: 100% !important;
+        min-width: 0;
+        gap: 36px !important;
+        padding: 210px 12px 48px !important;
+    }
+
+    .cards-container {
+        display: flex !important;
+        width: 100% !important;
+        flex-direction: column !important;
+        align-items: center;
+        gap: 16px;
+    }
+
+    .text-card {
+        width: min(100%, 340px) !important;
+        max-width: calc(100vw - 24px) !important;
+        padding: 26px 18px;
+    }
+}
+
+@media screen and (max-width: 420px) {
+    .hero-section {
+        padding-top: 205px !important;
+    }
 }
