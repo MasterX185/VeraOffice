@@ -33,15 +33,13 @@ jobs:
           npm run build
           npx cap sync android
 
-
       - name: Build APK (Gradle)
         run: |
           cd android
           bash ./gradlew assembleDebug
 
-      - name: Upload APK to Release
-        uses: softprops/action-gh-release@v2
+      - name: Upload APK as Artifact
+        uses: actions/upload-artifact@v4
         with:
-          files: android/app/build/outputs/apk/debug/app-debug.apk
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          name: app-debug-apk
+          path: android/app/build/outputs/apk/debug/app-debug.apk
