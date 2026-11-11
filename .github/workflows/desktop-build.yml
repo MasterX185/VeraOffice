@@ -3,6 +3,7 @@ on:
   push:
     tags:
       - 'v*'
+  workflow_dispatch:
 
 jobs:
   release:
@@ -21,7 +22,7 @@ jobs:
       - name: Setup Node.js
         uses: actions/setup-node@v4
         with:
-          node-size: lts/*
+          node-version: lts/*
 
       - name: Install Dependencies (Ubuntu)
         if: matrix.platform == 'ubuntu-22.04'
