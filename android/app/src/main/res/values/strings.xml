@@ -1,0 +1,7 @@
+<?xml version='1.0' encoding='utf-8'?>
+<resources>
+    <string name="app_name">VeraOffice</string>
+    <string name="title_activity_main">VeraOffice</string>
+    <string name="package_name">com.MasterX185.VeraOffice</string>
+    <string name="custom_url_scheme">com.MasterX185.VeraOffice</string>
+</resources>
