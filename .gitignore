@@ -1,4 +1,5 @@
 .vercel
 .env*
 node_modules/
+www/
 src-tauri/target/

@@ -4,7 +4,7 @@
   "private": true,
   "scripts": {
     "tauri": "tauri",
-    "build": "echo 'Kein Web-Build-Schritt notwendig'",
+    "build": "rm -rf www && mkdir -p www && cp -r app www/app && cp *.html *.js *.css *.svg www/",
     "android:sync": "npx cap sync android"
   },
   "dependencies": {
