@@ -24,17 +24,20 @@ jobs:
 
       - name: Setup Android SDK
         uses: android-actions/setup-android@v3
+        with:
+          packages: platform-tools
 
       - name: Install Dependencies & Sync
         run: |
           npm install
+          npm run build
           npx cap sync android
 
 
       - name: Build APK (Gradle)
         run: |
           cd android
-          ./gradlew assembleDebug
+          bash ./gradlew assembleDebug
 
       - name: Upload APK to Release
         uses: softprops/action-gh-release@v2
