@@ -1,0 +1,6 @@
+{
+  "appId": "com.MasterX185.VeraOffice",
+  "appName": "VeraOffice",
+  "webDir": ".",
+  "bundledWebRuntime": false
+}

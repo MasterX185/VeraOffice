@@ -27,8 +27,8 @@ jobs:
       - name: Install Dependencies & Sync
         run: |
           npm install
-          npm run build # Kopiert deine HTML/CSS/JS in den Web-Ordner
           npx cap sync android
+
 
       - name: Build APK (Gradle)
         run: |
